@@ -1,4 +1,4 @@
-package com.mshmidov.roller.command;
+package com.mshmidov.roller.shell.command;
 
 import com.google.common.collect.Iterables;
 import com.wandrell.tabletop.dice.notation.DiceExpression;
