@@ -1,35 +1,51 @@
 package com.mshmidov.roller;
 
-import com.mshmidov.roller.shell.RollerBootstrap;
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import com.wandrell.tabletop.dice.parser.DiceExpressionParser;
-import com.wandrell.tabletop.dice.roller.DefaultRoller;
-import com.wandrell.tabletop.dice.roller.Roller;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
-import java.io.IOException;
+import org.springframework.shell.CommandLine;
+import org.springframework.shell.core.ExitShellRequest;
+import org.springframework.shell.core.JLineShellComponent;
 
 @Configuration
 @ComponentScan
 public class RollerApplication {
 
-    public static void main(String[] args) throws IOException {
-
-        try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(RollerApplication.class)) {
-            RollerBootstrap.main(args, context);
-        }
-    }
+    @Autowired(required = false) private CommandLine commandLine;
+    @Autowired(required = false) private JLineShellComponent shell;
 
     @Bean
     public DiceExpressionParser diceExpressionParser() {
         return new DiceExpressionParser();
     }
 
-    @Bean
-    public Roller roller() {
-        return new DefaultRoller();
-    }
+    public ExitShellRequest run() {
 
+        String[] commandsToExecuteAndThenQuit = commandLine.getShellCommandsToExecute();
+        ExitShellRequest exitShellRequest = ExitShellRequest.NORMAL_EXIT;
+
+        if (null != commandsToExecuteAndThenQuit) {
+
+            for (String cmd : commandsToExecuteAndThenQuit) {
+                if (!shell.executeCommand(cmd).isSuccess()) {
+                    exitShellRequest = ExitShellRequest.FATAL_EXIT;
+                    break;
+                }
+            }
+
+        } else {
+            shell.start();
+            shell.promptLoop();
+
+            exitShellRequest = firstNonNull(shell.getExitShellRequest(), ExitShellRequest.NORMAL_EXIT);
+
+            shell.waitForComplete();
+        }
+
+        return exitShellRequest;
+    }
 }

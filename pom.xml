@@ -108,7 +108,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.mshmidov.roller.RollerApplication</mainClass>
+                                    <mainClass>com.mshmidov.roller.RollerStarter</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
