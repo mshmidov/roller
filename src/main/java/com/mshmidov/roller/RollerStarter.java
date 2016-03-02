@@ -1,6 +1,7 @@
 package com.mshmidov.roller;
 
 import com.google.common.collect.ImmutableList;
+import com.mshmidov.roller.shell.RollerJLineShellComponent;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -23,7 +24,7 @@ public class RollerStarter {
         final CommandLine commandLine = parseCommandLine(args);
 
         beanFactory.registerSingleton("commandLine", commandLine);
-        beanFactory.registerBeanDefinition("shell", new RootBeanDefinition(JLineShellComponent.class));
+        beanFactory.registerBeanDefinition("shell", new RootBeanDefinition(RollerJLineShellComponent.class));
 
         try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(beanFactory)) {
             context.register(RollerApplication.class);
