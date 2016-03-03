@@ -5,6 +5,9 @@ import com.mshmidov.roller.model.TableRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class TableBuildingContext implements InteractiveContext {
 
     private static final Logger logger = LoggerFactory.getLogger(TableBuildingContext.class);
@@ -13,6 +16,8 @@ public final class TableBuildingContext implements InteractiveContext {
     private final TableRegistry tableRegistry;
 
     private boolean erroneous = false;
+
+    private final Map<Integer, String> rows = new HashMap<>();
 
     public TableBuildingContext(String name, TableRegistry tableRegistry) {
         this.name = name;

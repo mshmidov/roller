@@ -1,4 +1,4 @@
-package com.mshmidov.roller.shell;
+package com.mshmidov.roller.shell.converter;
 
 import com.wandrell.tabletop.dice.notation.DiceExpression;
 import com.wandrell.tabletop.dice.parser.DiceExpressionParser;
