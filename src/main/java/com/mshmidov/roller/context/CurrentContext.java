@@ -11,16 +11,16 @@ public final class CurrentContext {
 
     private Optional<InteractiveContext> context = Optional.empty();
 
-    public Optional<InteractiveContext> get() {
+    public Optional<InteractiveContext> getInteractiveContext() {
         return context;
     }
 
-   public void start(InteractiveContext newContext) {
+   public void startInteractiveContext(InteractiveContext newContext) {
        checkState(!context.isPresent(), "another context is present");
        context = Optional.of(newContext);
    }
 
-    public void finish() {
+    public void finishInteractiveContext() {
         checkState(context.isPresent(), "no context is present");
         context.ifPresent(InteractiveContext::done);
         context = Optional.empty();

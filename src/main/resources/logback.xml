@@ -1,6 +1,13 @@
 <configuration>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="SHELL" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%highlight(%msg%n)</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>roller.log</file>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%-5level] %logger{36} - %msg%n</pattern>
         </encoder>
@@ -8,10 +15,11 @@
 
     <logger name="org.springframework" level="WARN"/>
 
-    <logger name="org.mshmidov.roller" level="DEBUG"/>
+    <logger name="org.mshmidov.roller" level="DEBUG" />
 
     <root level="WARN">
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="SHELL"/>
+        <appender-ref ref="FILE"/>
     </root>
 
 </configuration>

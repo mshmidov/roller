@@ -1,7 +1,6 @@
 package com.mshmidov.roller.shell.command;
 
 import com.mshmidov.roller.context.CurrentContext;
-import com.mshmidov.roller.model.TableRegistry;
 import com.mshmidov.roller.shell.RollerJLineShellComponent;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class DiscoverTablesCommand implements CommandMarker {
 
     @CliAvailabilityIndicator(value = "discover tables")
     public boolean isAvailable() {
-        return !currentContext.get().isPresent();
+        return !currentContext.getInteractiveContext().isPresent();
     }
 
     @CliCommand(value = "discover tables", help = "tries to recursively find and run all scripts named `*.table` starting from current directory")

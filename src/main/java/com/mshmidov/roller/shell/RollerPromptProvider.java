@@ -16,7 +16,7 @@ public final class RollerPromptProvider implements PromptProvider {
 
     @Override
     public String getPrompt() {
-        final String context = currentContext.get().map(InteractiveContext::getPrompt).orElse("roller");
+        final String context = currentContext.getInteractiveContext().map(InteractiveContext::getPrompt).orElse("roller");
 
         return String.format("%s>", context);
     }

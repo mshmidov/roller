@@ -17,11 +17,14 @@ public class DoneCommand implements CommandMarker {
 
     @CliAvailabilityIndicator(value = "done")
     public boolean isAvailable() {
-        return context.get().isPresent();
+        return true;
+        //        return context.get().isPresent();
     }
 
     @CliCommand(value = "done", help = "finishes current context")
     public void execute() {
-        context.finish();
+        if (context.getInteractiveContext().isPresent()) {
+            context.finishInteractiveContext();
+        }
     }
 }
