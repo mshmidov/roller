@@ -9,6 +9,7 @@ import org.springframework.shell.core.annotation.CliCommand;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Component
 public class ListTablesCommand implements CommandMarker {
@@ -21,7 +22,7 @@ public class ListTablesCommand implements CommandMarker {
     }
 
     @CliCommand(value = "list tables", help = "lists all registered tables")
-    public Collection<Table> execute() {
-        return tableRegistry.getAllTables();
+    public Collection<String> execute() {
+        return tableRegistry.getAllTables().stream().map(Table::getName).collect(Collectors.toList());
     }
 }

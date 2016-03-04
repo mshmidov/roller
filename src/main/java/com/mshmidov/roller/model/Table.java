@@ -20,13 +20,13 @@ public final class Table {
         return name;
     }
 
+    public TreeMap<Integer, String> getRows() {
+        return new TreeMap<>(rows);
+    }
+
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder(name).append('\n');
-
-        rows.forEach((i, s) -> builder.append(i).append(": ").append(s).append('\n'));
-
-        return builder.toString();
+        return name;
     }
 
     public static boolean checkContinuity(TreeMap<Integer, String> rows) {
