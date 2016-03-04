@@ -4,6 +4,7 @@ import com.mshmidov.roller.context.InteractiveContext;
 import com.mshmidov.roller.model.Range;
 import com.mshmidov.roller.model.Table;
 import com.mshmidov.roller.model.TableRegistry;
+import com.wandrell.tabletop.dice.notation.DiceExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +22,7 @@ public final class TableBuildingContext implements InteractiveContext<Table> {
     private final boolean erroneous;
 
     private Optional<TableBuilder> tableBuilder = Optional.empty();
+    private Optional<DiceExpression> roll = Optional.empty();
 
     public TableBuildingContext(String name, TableRegistry tableRegistry) {
         this.name = name;
@@ -48,7 +50,7 @@ public final class TableBuildingContext implements InteractiveContext<Table> {
             return Optional.empty();
 
         } else {
-            final Optional<Table> table = tableBuilder.flatMap(TableBuilder::build);
+            final Optional<Table> table = tableBuilder.flatMap(builder -> builder.build(roll));
             table.ifPresent(tableRegistry::putTable);
             return table;
         }
@@ -62,5 +64,9 @@ public final class TableBuildingContext implements InteractiveContext<Table> {
         }
 
         tableBuilder.ifPresent(builder -> builder.addRow(range, value));
+    }
+
+    public void setRoll(DiceExpression roll) {
+        this.roll = Optional.of(roll);
     }
 }

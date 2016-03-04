@@ -2,6 +2,7 @@ package com.mshmidov.roller.context.table;
 
 import com.mshmidov.roller.model.Range;
 import com.mshmidov.roller.model.Table;
+import com.wandrell.tabletop.dice.notation.DiceExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,14 +33,14 @@ public final class TableBuilderByOrder implements TableBuilder {
     }
 
     @Override
-    public Optional<Table> build() {
+    public Optional<Table> build(Optional<DiceExpression> roll) {
 
         if (rows.isEmpty()) {
             logger.warn("Cannot create table without rows.");
             return Optional.empty();
         }
 
-        return Optional.of(new Table(name, rows));
+        return Optional.of(new Table(name, rows, roll));
     }
 
 }
