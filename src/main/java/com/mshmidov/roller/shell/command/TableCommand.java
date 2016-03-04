@@ -1,7 +1,7 @@
 package com.mshmidov.roller.shell.command;
 
 import com.mshmidov.roller.context.CurrentContext;
-import com.mshmidov.roller.context.TableBuildingContext;
+import com.mshmidov.roller.context.table.TableBuildingContext;
 import com.mshmidov.roller.model.TableRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,14 +28,6 @@ public class TableCommand implements CommandMarker {
 
     @CliCommand(value = "table", help = "enters table creation context")
     public void execute(@CliOption(key = { "", "name" }, mandatory = true, help = "Unique table name") final String name) {
-        final TableBuildingContext newContext = new TableBuildingContext(name, tableRegistry);
-
-        if (tableRegistry.getTable(name).isPresent()) {
-            logger.warn("Table '" + name + "' is already registered and would not be changed");
-            newContext.setErroneous(true);
-        }
-
-        context.startInteractiveContext(newContext);
-
+        context.startInteractiveContext(new TableBuildingContext(name, tableRegistry));
     }
 }

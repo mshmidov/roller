@@ -1,7 +1,7 @@
 package com.mshmidov.roller.shell.command;
 
 import com.mshmidov.roller.context.CurrentContext;
-import com.mshmidov.roller.context.TableBuildingContext;
+import com.mshmidov.roller.context.table.TableBuildingContext;
 import com.mshmidov.roller.model.Range;
 import com.mshmidov.roller.model.TableRegistry;
 import org.slf4j.Logger;
