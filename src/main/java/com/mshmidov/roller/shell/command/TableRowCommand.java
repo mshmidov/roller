@@ -13,6 +13,8 @@ import org.springframework.shell.core.annotation.CliCommand;
 import org.springframework.shell.core.annotation.CliOption;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class TableRowCommand implements CommandMarker {
 
@@ -32,6 +34,8 @@ public class TableRowCommand implements CommandMarker {
             @CliOption(key = { "on" }, mandatory = false, help = "range of table roll results") final Range range,
             @CliOption(key = { "", "result" }, mandatory = true, help = "resulting value") final String value) {
 
-        logger.debug(range + " " + value);
+        context.getInteractiveContext()
+                .flatMap(c -> (c instanceof TableBuildingContext) ? Optional.of((TableBuildingContext) c) : Optional.empty())
+                .ifPresent(builder -> builder.addRow(Optional.ofNullable(range), value));
     }
 }

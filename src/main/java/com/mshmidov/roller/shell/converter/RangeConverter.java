@@ -32,7 +32,7 @@ public class RangeConverter implements Converter<Range> {
             }
         }
 
-        throw new IllegalArgumentException("Cannot parse range from string: " + value);
+        return null;
     }
 
     @Override

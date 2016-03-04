@@ -1,8 +1,10 @@
 package com.mshmidov.roller.context;
 
-public interface InteractiveContext {
+import java.util.Optional;
+
+public interface InteractiveContext<T> {
 
     String getPrompt();
 
-    void done();
+    Optional<T> done();
 }

@@ -5,6 +5,8 @@ import com.google.common.base.Preconditions;
 
 import java.util.Iterator;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public final class Range implements Iterable<Integer> {
 
@@ -29,6 +31,10 @@ public final class Range implements Iterable<Integer> {
     @Override
     public Iterator<Integer> iterator() {
         return IntStream.range(lower, upper+1).iterator();
+    }
+
+    public Stream<Integer> stream() {
+        return StreamSupport.stream(this.spliterator(), false);
     }
 
     @Override

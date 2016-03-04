@@ -20,10 +20,11 @@ public final class CurrentContext {
        context = Optional.of(newContext);
    }
 
-    public void finishInteractiveContext() {
+    public Optional<?> finishInteractiveContext() {
         checkState(context.isPresent(), "no context is present");
-        context.ifPresent(InteractiveContext::done);
+        final Optional<?> result = context.flatMap(InteractiveContext::done);
         context = Optional.empty();
+        return result;
     }
 
 }
