@@ -22,7 +22,7 @@ public class ListTablesCommand implements CommandMarker {
     }
 
     @CliCommand(value = "list tables", help = "lists all registered tables")
-    public Collection<String> execute() {
-        return tableRegistry.getAllTables().stream().map(Table::getName).collect(Collectors.toList());
+    public Collection<Table> execute() {
+        return tableRegistry.getAllTables();
     }
 }

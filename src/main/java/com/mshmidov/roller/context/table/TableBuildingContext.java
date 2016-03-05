@@ -1,5 +1,6 @@
 package com.mshmidov.roller.context.table;
 
+import com.google.common.base.Joiner;
 import com.mshmidov.roller.context.InteractiveContext;
 import com.mshmidov.roller.model.Range;
 import com.mshmidov.roller.model.Table;
@@ -8,6 +9,8 @@ import com.wandrell.tabletop.dice.notation.DiceExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public final class TableBuildingContext implements InteractiveContext<Table> {
@@ -38,9 +41,25 @@ public final class TableBuildingContext implements InteractiveContext<Table> {
 
     @Override
     public String getPrompt() {
-        return (erroneous)
-                ? "will not build table"
-                : String.format("building table '%s'", name);
+        if (erroneous) {
+            return "will not build table";
+        }
+
+        final List<String> parts = new ArrayList<>();
+        parts.add(String.format("table '%s'", name));
+
+        roll.map(DiceExpression::getPrintableText).map(Optional::of)
+                .orElse(tableBuilder.map(TableBuilder::getRows).map(m -> String.format("%d..%d", m.firstKey(), m.lastKey())))
+                .map(s -> String.format("(%s)", s))
+                .ifPresent(parts::add);
+
+        tableBuilder.map(TableBuilder::getRows).map(m -> String.format("%d rows, %d choices", m.size(), m.values().stream().distinct().count()))
+                .ifPresent(parts::add);
+
+        tableBuilder.map(b -> (b instanceof TableBuilderByOrder) ? "by order" : "by range").
+                ifPresent(parts::add);
+
+        return Joiner.on(' ').join(parts);
     }
 
     @Override

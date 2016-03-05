@@ -1,6 +1,5 @@
 package com.mshmidov.roller.model;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 
 import java.util.Iterator;
@@ -30,7 +29,7 @@ public final class Range implements Iterable<Integer> {
 
     @Override
     public Iterator<Integer> iterator() {
-        return IntStream.range(lower, upper+1).iterator();
+        return IntStream.range(lower, upper + 1).iterator();
     }
 
     public Stream<Integer> stream() {
@@ -39,6 +38,8 @@ public final class Range implements Iterable<Integer> {
 
     @Override
     public String toString() {
-        return lower + ".." + upper;
+        return (lower != upper)
+                ? lower + ".." + upper
+                : String.valueOf(lower);
     }
 }
