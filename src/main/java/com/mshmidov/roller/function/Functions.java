@@ -1,31 +1,33 @@
 package com.mshmidov.roller.function;
 
 import com.google.common.collect.Iterables;
+import com.mshmidov.roller.model.Table;
 import com.wandrell.tabletop.dice.notation.DiceExpression;
 import com.wandrell.tabletop.dice.notation.DiceExpressionComponent;
 import com.wandrell.tabletop.dice.notation.operation.Operand;
 import com.wandrell.tabletop.dice.notation.operation.Operation;
 
-import java.util.function.Supplier;
+import java.util.function.IntSupplier;
 
-public final class RollDice implements Supplier<Integer> {
+public final class Functions {
 
-    private final DiceExpression diceExpression;
+    private Functions() {}
 
-    public RollDice(DiceExpression diceExpression) {
-        this.diceExpression = diceExpression;
+    public static String tableToString(Table table) {
+
+        final StringBuilder builder = new StringBuilder(table.getName()).append('\n');
+        table.getRows().forEach((i, s) -> builder.append(i).append(": ").append(s).append('\n'));
+
+        return builder.toString();
     }
 
-    @Override
-    public Integer get() {
-        return roll(diceExpression);
-    }
-
-    private int roll(DiceExpression dice) {
+    public static int rollDice(DiceExpression dice) {
         final DiceExpressionComponent component = Iterables.getOnlyElement(dice.getComponents());
+
         if (component instanceof Operation) {
             return ((Operation) component).operate().getValue();
         }
+
         if (component instanceof Operand) {
             return ((Operand) component).getValue();
         }
@@ -33,7 +35,11 @@ public final class RollDice implements Supplier<Integer> {
         throw new IllegalStateException();
     }
 
-    public static Supplier<Integer> rollDice(DiceExpression diceExpression) {
-        return new RollDice(diceExpression);
+    public static IntSupplier diceRollSupplier(DiceExpression dice) {
+        return () -> rollDice(dice);
+    }
+
+    public static IntToIntFunction valueInBounds(int min, int max) {
+        return i -> Math.max(Math.min(i, max), min);
     }
 }

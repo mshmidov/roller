@@ -1,8 +1,6 @@
 package com.mshmidov.roller.shell.command;
 
-import static com.mshmidov.roller.function.RollDice.rollDice;
-
-import com.mshmidov.roller.function.RollDice;
+import com.mshmidov.roller.function.Functions;
 import com.mshmidov.roller.model.Table;
 import com.wandrell.tabletop.dice.notation.DiceExpression;
 import org.slf4j.Logger;
@@ -14,7 +12,7 @@ import org.springframework.shell.core.annotation.CliOption;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-import java.util.function.Supplier;
+import java.util.function.IntSupplier;
 
 @Component
 public class RollCommand implements CommandMarker {
@@ -32,15 +30,15 @@ public class RollCommand implements CommandMarker {
             @CliOption(key = "table", help = "Table to roll") Table table) {
 
         if (table == null && dice != null) {
-            return String.valueOf(rollDice(dice).get());
+            return String.valueOf(Functions.rollDice(dice));
         }
 
         if (table != null) {
-            final Supplier<Integer> diceToRoll = Optional.ofNullable(dice)
-                    .map(RollDice::rollDice)
-                    .orElseGet(table::getRoll);
+            final IntSupplier diceToRoll = Optional.ofNullable(dice)
+                    .map(Functions::diceRollSupplier)
+                    .orElse(table.getRoll());
 
-            return table.getValue(diceToRoll.get());
+            return table.getValue(diceToRoll.getAsInt());
         }
 
         logger.error("At least one parameter for this command should be supplied");

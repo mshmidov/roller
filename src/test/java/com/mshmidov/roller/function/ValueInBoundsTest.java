@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BoundedTest {
+public class ValueInBoundsTest {
 
     @Test
     public void shouldReturnLowerBoundIfValueIsLess() {
@@ -20,7 +20,7 @@ public class BoundedTest {
         final int value = 4;
 
         // when
-        final int result = new Bounded(min, max).apply(value);
+        final int result = Functions.valueInBounds(min, max).apply(value);
 
         // then
         assertEquals(min, result);
@@ -35,7 +35,7 @@ public class BoundedTest {
         final int value = 11;
 
         // when
-        final int result = new Bounded(min, max).apply(value);
+        final int result = Functions.valueInBounds(min, max).apply(value);
 
         // then
         assertEquals(max, result);
@@ -50,7 +50,7 @@ public class BoundedTest {
         final int value = 7;
 
         // when
-        final int result = new Bounded(min, max).apply(value);
+        final int result = Functions.valueInBounds(min, max).apply(value);
 
         // then
         assertEquals(value, result);

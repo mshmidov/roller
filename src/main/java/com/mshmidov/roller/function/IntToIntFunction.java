@@ -1,7 +1,7 @@
 package com.mshmidov.roller.function;
 
 @FunctionalInterface
-public interface Action {
+public interface IntToIntFunction {
 
-    void perform();
+    int apply(int value);
 }

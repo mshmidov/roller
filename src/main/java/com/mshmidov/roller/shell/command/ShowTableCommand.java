@@ -1,7 +1,6 @@
 package com.mshmidov.roller.shell.command;
 
-import static com.mshmidov.roller.function.RenderTable.renderTable;
-
+import com.mshmidov.roller.function.Functions;
 import com.mshmidov.roller.model.Table;
 import org.springframework.shell.core.CommandMarker;
 import org.springframework.shell.core.annotation.CliAvailabilityIndicator;
@@ -19,6 +18,6 @@ public class ShowTableCommand implements CommandMarker {
 
     @CliCommand(value = "show table", help = "displays a table")
     public String execute(@CliOption(key = { "" }, mandatory = true, help = "Name of the table to show") Table table) {
-        return renderTable().apply(table);
+        return Functions.tableToString(table);
     }
 }
