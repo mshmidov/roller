@@ -1,7 +1,8 @@
 package com.mshmidov.roller.shell.converter;
 
 import com.mshmidov.roller.model.Table;
-import com.mshmidov.roller.model.TableRegistry;
+import com.mshmidov.roller.service.TableRegistry;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.core.Completion;
 import org.springframework.shell.core.Converter;
@@ -25,7 +26,7 @@ public class TableConverter implements Converter<Table> {
             final String existingData, final String optionContext, final MethodTarget target) {
 
         tableRegistry.getAllTables().stream()
-                .filter(table -> table.getName().startsWith(existingData))
+                .filter(table -> StringUtils.isBlank(existingData) || table.getName().startsWith(existingData))
                 .map(table -> new Completion(table.getName()))
                 .forEach(completions::add);
 

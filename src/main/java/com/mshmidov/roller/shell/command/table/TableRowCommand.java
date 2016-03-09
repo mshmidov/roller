@@ -1,11 +1,9 @@
-package com.mshmidov.roller.shell.command;
+package com.mshmidov.roller.shell.command.table;
 
 import com.mshmidov.roller.context.CurrentContext;
 import com.mshmidov.roller.context.table.TableBuildingContext;
 import com.mshmidov.roller.model.Range;
-import com.mshmidov.roller.model.TableRegistry;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.mshmidov.roller.service.TableRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.core.CommandMarker;
 import org.springframework.shell.core.annotation.CliAvailabilityIndicator;
@@ -17,8 +15,6 @@ import java.util.Optional;
 
 @Component
 public class TableRowCommand implements CommandMarker {
-
-    private static final Logger logger = LoggerFactory.getLogger(TableRowCommand.class);
 
     @Autowired CurrentContext context;
 

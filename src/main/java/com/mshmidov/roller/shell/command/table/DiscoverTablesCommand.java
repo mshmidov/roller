@@ -1,6 +1,7 @@
-package com.mshmidov.roller.shell.command;
+package com.mshmidov.roller.shell.command.table;
 
 import com.mshmidov.roller.context.CurrentContext;
+import com.mshmidov.roller.function.TableValidator;
 import com.mshmidov.roller.shell.RollerJLineShellComponent;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,9 @@ public class DiscoverTablesCommand implements CommandMarker {
     public void execute() {
         final Collection<File> tables = FileUtils.listFiles(new File("."), new String[] { "table" }, true);
 
-        tables.forEach(file -> scriptCommands.script(file, false));
+        tables.stream()
+                .filter(TableValidator::tableValid)
+                .forEach(file -> scriptCommands.script(file, false));
     }
 
 

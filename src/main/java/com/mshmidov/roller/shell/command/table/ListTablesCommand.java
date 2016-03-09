@@ -1,7 +1,7 @@
-package com.mshmidov.roller.shell.command;
+package com.mshmidov.roller.shell.command.table;
 
 import com.mshmidov.roller.model.Table;
-import com.mshmidov.roller.model.TableRegistry;
+import com.mshmidov.roller.service.TableRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.core.CommandMarker;
 import org.springframework.shell.core.annotation.CliAvailabilityIndicator;
@@ -9,7 +9,6 @@ import org.springframework.shell.core.annotation.CliCommand;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 @Component
 public class ListTablesCommand implements CommandMarker {

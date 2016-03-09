@@ -1,4 +1,4 @@
-package com.mshmidov.roller.shell.command;
+package com.mshmidov.roller.shell.command.table;
 
 import com.mshmidov.roller.function.Functions;
 import com.mshmidov.roller.model.Table;
@@ -17,7 +17,7 @@ public class ShowTableCommand implements CommandMarker {
     }
 
     @CliCommand(value = "show table", help = "displays a table")
-    public String execute(@CliOption(key = { "" }, mandatory = true, help = "Name of the table to show") Table table) {
+    public String execute(@CliOption(key = { "", "name" }, mandatory = true, help = "Name of the table to show") Table table) {
         return Functions.tableToString(table);
     }
 }

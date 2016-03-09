@@ -7,12 +7,17 @@ import com.wandrell.tabletop.dice.notation.DiceExpression;
 import com.wandrell.tabletop.dice.notation.DiceExpressionComponent;
 import com.wandrell.tabletop.dice.notation.operation.Operand;
 import com.wandrell.tabletop.dice.notation.operation.Operation;
+import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.IntSupplier;
+import java.util.regex.Pattern;
 
 public final class Functions {
+
+    public static final Pattern VALID_TABLE_NAME = Pattern.compile("[\\w-]+");
 
     private Functions() {}
 
@@ -47,4 +52,9 @@ public final class Functions {
     public static IntToIntFunction valueInBounds(int min, int max) {
         return i -> Math.max(Math.min(i, max), min);
     }
+
+    public static boolean tableNameValid(String name) {
+        return VALID_TABLE_NAME.matcher(name).matches();
+    }
+
 }

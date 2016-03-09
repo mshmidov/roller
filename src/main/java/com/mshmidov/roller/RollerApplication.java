@@ -2,6 +2,8 @@ package com.mshmidov.roller;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
+import com.mshmidov.roller.shell.RollerJLineShellComponent;
+import com.mshmidov.roller.shell.command.table.DiscoverTablesCommand;
 import com.wandrell.tabletop.dice.parser.DiceExpressionParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,14 +11,16 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.shell.CommandLine;
 import org.springframework.shell.core.ExitShellRequest;
-import org.springframework.shell.core.JLineShellComponent;
 
 @Configuration
 @ComponentScan
 public class RollerApplication {
 
     @Autowired(required = false) private CommandLine commandLine;
-    @Autowired(required = false) private JLineShellComponent shell;
+    @Autowired(required = false) private RollerJLineShellComponent shell;
+
+    @Autowired private DiscoverTablesCommand discoverTablesCommand;
+
 
     @Bean
     public DiceExpressionParser diceExpressionParser() {
@@ -38,6 +42,9 @@ public class RollerApplication {
             }
 
         } else {
+
+            discoverTablesCommand.execute();
+
             shell.start();
             shell.promptLoop();
 

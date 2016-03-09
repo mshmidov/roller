@@ -2,9 +2,10 @@ package com.mshmidov.roller.context.table;
 
 import com.google.common.base.Joiner;
 import com.mshmidov.roller.context.InteractiveContext;
+import com.mshmidov.roller.function.Functions;
 import com.mshmidov.roller.model.Range;
 import com.mshmidov.roller.model.Table;
-import com.mshmidov.roller.model.TableRegistry;
+import com.mshmidov.roller.service.TableRegistry;
 import com.wandrell.tabletop.dice.notation.DiceExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,12 @@ public final class TableBuildingContext implements InteractiveContext<Table> {
         if (tableRegistry.getTable(name).isPresent()) {
             logger.warn("Table '" + name + "' is already registered and would not be changed");
             erroneous = true;
+
+        } else if (!Functions.tableNameValid(name)) {
+            logger.warn("'" + name
+                    + "' is incorrect table name. Table name should not be empty and should contain only alphanumeric characters, underscores and dashes.");
+            erroneous = true;
+
         } else {
             erroneous = false;
         }
@@ -66,6 +73,10 @@ public final class TableBuildingContext implements InteractiveContext<Table> {
     public Optional<Table> done() {
         if (erroneous) {
             logger.warn("Table was not created");
+            return Optional.empty();
+
+        } else if (!tableBuilder.isPresent()) {
+            logger.warn("Cannot create table without rows.");
             return Optional.empty();
 
         } else {

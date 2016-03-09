@@ -1,8 +1,9 @@
-package com.mshmidov.roller.model;
+package com.mshmidov.roller.service;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.ImmutableList;
+import com.mshmidov.roller.model.Table;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -27,5 +28,9 @@ public final class TableRegistry {
         final String name = table.getName();
         checkArgument(!getTable(name).isPresent(), "table named '" + name + "' is already registered");
         tables.put(name, table);
+    }
+
+    public boolean removeTable(String name) {
+        return tables.remove(name) != null;
     }
 }

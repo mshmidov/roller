@@ -21,19 +21,19 @@ public final class RollerBannerProvider implements BannerProvider {
 
     @Override
     public String getBanner() {
-        final StringBuilder sb = new StringBuilder();
-
-        try (final InputStream banner = ClassLoader.getSystemResourceAsStream("banner")) {
-            try (final InputStreamReader reader = new InputStreamReader(banner)) {
-                sb.append(FileUtils.readBanner(reader));
-            }
-        } catch (IOException e) {
-           LOGGER.error(e.getMessage(), e);
-        }
-
-        sb.append(getVersion()).append(OsUtils.LINE_SEPARATOR);
-        sb.append(OsUtils.LINE_SEPARATOR);
-        return sb.toString();
+//        final StringBuilder sb = new StringBuilder();
+//
+//        try (final InputStream banner = ClassLoader.getSystemResourceAsStream("banner")) {
+//            try (final InputStreamReader reader = new InputStreamReader(banner)) {
+//                sb.append(FileUtils.readBanner(reader));
+//            }
+//        } catch (IOException e) {
+//           LOGGER.error(e.getMessage(), e);
+//        }
+//
+//        sb.append(getVersion()).append(OsUtils.LINE_SEPARATOR);
+//        sb.append(OsUtils.LINE_SEPARATOR);
+        return "";
     }
 
     @Override

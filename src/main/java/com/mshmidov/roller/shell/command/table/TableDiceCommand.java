@@ -1,4 +1,4 @@
-package com.mshmidov.roller.shell.command;
+package com.mshmidov.roller.shell.command.table;
 
 import com.mshmidov.roller.context.CurrentContext;
 import com.mshmidov.roller.context.table.TableBuildingContext;
