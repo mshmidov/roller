@@ -7,17 +7,15 @@ import com.wandrell.tabletop.dice.notation.DiceExpression;
 import com.wandrell.tabletop.dice.notation.DiceExpressionComponent;
 import com.wandrell.tabletop.dice.notation.operation.Operand;
 import com.wandrell.tabletop.dice.notation.operation.Operation;
-import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.IntSupplier;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class Functions {
-
-    public static final Pattern VALID_TABLE_NAME = Pattern.compile("[\\w-]+");
 
     private Functions() {}
 
@@ -26,7 +24,7 @@ public final class Functions {
         final List<String> parts = new ArrayList<>();
         parts.add(table.getName());
 
-        table.getGroupedRows().forEach((range, s) -> parts.add(String.format("%s: %s", range.toString(), s)));
+        table.getRows().forEach((range, s) -> parts.add(String.format("%s: %s", range.toString(), s)));
 
         return Joiner.on('\n').join(parts);
     }
@@ -53,8 +51,16 @@ public final class Functions {
         return i -> Math.max(Math.min(i, max), min);
     }
 
-    public static boolean tableNameValid(String name) {
-        return VALID_TABLE_NAME.matcher(name).matches();
+    public static String replaceRegex(String source, Pattern pattern, Function<String, String> replacement) {
+        final StringBuffer result = new StringBuffer();
+
+        final Matcher matcher = pattern.matcher(source);
+        while (matcher.find()) {
+            matcher.appendReplacement(result, replacement.apply(matcher.group()));
+        }
+        matcher.appendTail(result);
+
+        return result.toString();
     }
 
 }

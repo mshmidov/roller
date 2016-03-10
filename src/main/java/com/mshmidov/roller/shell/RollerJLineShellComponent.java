@@ -1,5 +1,9 @@
 package com.mshmidov.roller.shell;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableList;
 import jline.TerminalFactory;
 import jline.console.ConsoleReader;
 import org.springframework.shell.TerminalSizeAware;
@@ -7,17 +11,23 @@ import org.springframework.shell.core.CommandResult;
 import org.springframework.shell.core.JLineShellComponent;
 
 import java.io.IOException;
+import java.util.Deque;
+import java.util.LinkedList;
 
 public class RollerJLineShellComponent extends JLineShellComponent {
 
-    private boolean interactive = true;
+    private final Deque<Boolean> interactive = new LinkedList<>();
 
     public boolean isInteractive() {
-        return interactive;
+        return firstNonNull(interactive.peek(), true);
     }
 
-    public void setInteractive(boolean interactive) {
-        this.interactive = interactive;
+    public void pushInteractive(boolean interactive) {
+        this.interactive.push(interactive);
+    }
+
+    public void popInteractive() {
+        this.interactive.pop();
     }
 
     public ConsoleReader getConsoleReader() {
@@ -33,11 +43,11 @@ public class RollerJLineShellComponent extends JLineShellComponent {
     }
 
     public CommandResult executeNonInteractiveCommand(String line) {
-        interactive = false;
+        pushInteractive(false);
         try {
             return super.executeCommand(line);
         } finally {
-            interactive = true;
+            popInteractive();
         }
     }
 
@@ -47,10 +57,12 @@ public class RollerJLineShellComponent extends JLineShellComponent {
             for (Object o : (Iterable<?>) result) {
                 handleExecutionResult(o);
             }
-        } else if (result instanceof TerminalSizeAware && interactive) {
+
+        } else if (result instanceof TerminalSizeAware && isInteractive()) {
             int width = TerminalFactory.get().getWidth();
             logger.info(((TerminalSizeAware) result).render(width).toString());
-        } else if (interactive) {
+
+        } else if (isInteractive()) {
             logger.info(result.toString());
         }
     }

@@ -15,10 +15,15 @@
 
     <logger name="org.springframework" level="WARN"/>
 
-    <logger name="com.mshmidov.roller" level="DEBUG" />
+    <logger name="org.springframework.shell" level="INFO" >
+        <appender-ref ref="SHELL"/>
+    </logger>
+
+    <logger name="com.mshmidov.roller" level="DEBUG" >
+        <appender-ref ref="SHELL"/>
+    </logger>
 
     <root level="WARN">
-        <appender-ref ref="SHELL"/>
         <appender-ref ref="FILE"/>
     </root>
 

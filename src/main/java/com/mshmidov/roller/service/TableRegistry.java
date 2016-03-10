@@ -1,9 +1,9 @@
 package com.mshmidov.roller.service;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.common.collect.ImmutableList;
 import com.mshmidov.roller.model.Table;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -13,6 +13,8 @@ import java.util.Optional;
 
 @Component
 public final class TableRegistry {
+
+    private static final Logger logger = LoggerFactory.getLogger(TableRegistry.class);
 
     private Map<String, Table> tables = new HashMap<>();
 
@@ -26,11 +28,19 @@ public final class TableRegistry {
 
     public void putTable(Table table) {
         final String name = table.getName();
-        checkArgument(!getTable(name).isPresent(), "table named '" + name + "' is already registered");
-        tables.put(name, table);
+
+        if (getTable(name).isPresent()) {
+            logger.info("Table named '{}' is already registered", name);
+
+        } else {
+            tables.put(name, table);
+            logger.info("Added table {}", table.toString());
+        }
     }
 
     public boolean removeTable(String name) {
         return tables.remove(name) != null;
     }
+
+
 }

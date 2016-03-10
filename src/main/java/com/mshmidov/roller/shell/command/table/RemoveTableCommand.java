@@ -1,6 +1,5 @@
 package com.mshmidov.roller.shell.command.table;
 
-import com.mshmidov.roller.context.CurrentContext;
 import com.mshmidov.roller.model.Table;
 import com.mshmidov.roller.service.TableRegistry;
 import org.slf4j.Logger;
@@ -17,13 +16,12 @@ public class RemoveTableCommand implements CommandMarker {
 
     private static final Logger logger = LoggerFactory.getLogger(RemoveTableCommand.class);
 
-    @Autowired CurrentContext context;
 
     @Autowired TableRegistry tableRegistry;
 
     @CliAvailabilityIndicator(value = "remove table")
     public boolean isAvailable() {
-        return !context.getInteractiveContext().isPresent();
+        return true;
     }
 
     @CliCommand(value = "remove table", help = "removes registered table")

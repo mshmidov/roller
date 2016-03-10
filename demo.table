@@ -1,6 +1,4 @@
-table demo
 dice 1d6
-row --on 1-2 result1 {roll 3d6}
-row --on 3-4 result2 {roll 3d6}
-row --on 5-6 result3 {roll 3d6}
-done
+1-2 result1 {roll 3d6 --table other}
+3-4 result2 {roll 3d6 --table other}
+5-6 result3 {roll 3d6 --table other}
