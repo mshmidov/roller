@@ -84,6 +84,8 @@
     </dependencies>
 
     <build>
+        <finalName>roller</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
