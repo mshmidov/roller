@@ -4,8 +4,8 @@ import static org.apache.commons.lang3.StringUtils.removeEnd;
 import static org.apache.commons.lang3.StringUtils.removeStart;
 
 import com.mshmidov.roller.shell.RollerJLineShellComponent;
-import com.mshmidov.roller.shell.function.Functions;
-import com.mshmidov.roller.shell.model.Table;
+import com.mshmidov.roller.core.function.Functions;
+import com.mshmidov.roller.core.model.Table;
 import com.wandrell.tabletop.dice.notation.DiceExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

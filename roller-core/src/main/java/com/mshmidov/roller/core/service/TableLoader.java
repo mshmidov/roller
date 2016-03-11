@@ -1,17 +1,15 @@
-package com.mshmidov.roller.shell.service;
+package com.mshmidov.roller.core.service;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
-import com.mshmidov.roller.shell.model.Range;
-import com.mshmidov.roller.shell.model.Table;
+import com.mshmidov.roller.core.model.Range;
+import com.mshmidov.roller.core.model.Table;
 import com.wandrell.tabletop.dice.notation.DiceExpression;
 import com.wandrell.tabletop.dice.parser.DiceExpressionParser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +21,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@Component
 public final class TableLoader {
 
     private static final Logger logger = LoggerFactory.getLogger(TableLoader.class);
@@ -32,8 +29,11 @@ public final class TableLoader {
 
     private static final Pattern RANGE_PATTERN = Pattern.compile("(\\d+)(?:-|\\.\\.)(\\d+)");
 
-    @Autowired
-    private DiceExpressionParser diceExpressionParser;
+    private final DiceExpressionParser diceExpressionParser;
+
+    public TableLoader(DiceExpressionParser diceExpressionParser) {
+        this.diceExpressionParser = diceExpressionParser;
+    }
 
     public Optional<Table> loadTable(File file) {
 

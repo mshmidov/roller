@@ -1,7 +1,7 @@
 package com.mshmidov.roller.shell.converter;
 
-import com.mshmidov.roller.shell.model.Table;
-import com.mshmidov.roller.shell.service.TableRegistry;
+import com.mshmidov.roller.core.model.Table;
+import com.mshmidov.roller.core.service.TableRegistry;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.core.Completion;

@@ -1,17 +1,15 @@
-package com.mshmidov.roller.shell.service;
+package com.mshmidov.roller.core.service;
 
 import com.google.common.collect.ImmutableList;
-import com.mshmidov.roller.shell.model.Table;
+import com.mshmidov.roller.core.model.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@Component
 public final class TableRegistry {
 
     private static final Logger logger = LoggerFactory.getLogger(TableRegistry.class);

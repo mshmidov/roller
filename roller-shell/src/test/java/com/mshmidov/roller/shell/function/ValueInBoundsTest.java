@@ -2,6 +2,7 @@ package com.mshmidov.roller.shell.function;
 
 import static org.junit.Assert.*;
 
+import com.mshmidov.roller.core.function.Functions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;

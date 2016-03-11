@@ -1,7 +1,9 @@
-package com.mshmidov.roller.shell;
+package com.mshmidov.roller;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
+import com.mshmidov.roller.core.service.TableLoader;
+import com.mshmidov.roller.core.service.TableRegistry;
 import com.mshmidov.roller.shell.RollerJLineShellComponent;
 import com.mshmidov.roller.shell.command.table.DiscoverTablesCommand;
 import com.wandrell.tabletop.dice.parser.DiceExpressionParser;
@@ -25,6 +27,16 @@ public class RollerApplication {
     @Bean
     public DiceExpressionParser diceExpressionParser() {
         return new DiceExpressionParser();
+    }
+
+    @Bean
+    public TableRegistry tableRegistry() {
+        return new TableRegistry();
+    }
+
+    @Bean
+    public TableLoader tableLoader(DiceExpressionParser diceExpressionParser) {
+        return new TableLoader(diceExpressionParser);
     }
 
     public ExitShellRequest run() {

@@ -1,7 +1,7 @@
 package com.mshmidov.roller.shell.command.table;
 
-import com.mshmidov.roller.shell.function.Functions;
-import com.mshmidov.roller.shell.model.Table;
+import com.mshmidov.roller.core.function.Functions;
+import com.mshmidov.roller.core.model.Table;
 import org.springframework.shell.core.CommandMarker;
 import org.springframework.shell.core.annotation.CliAvailabilityIndicator;
 import org.springframework.shell.core.annotation.CliCommand;

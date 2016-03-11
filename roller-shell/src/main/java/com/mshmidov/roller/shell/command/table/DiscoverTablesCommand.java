@@ -1,7 +1,7 @@
 package com.mshmidov.roller.shell.command.table;
 
-import com.mshmidov.roller.shell.service.TableLoader;
-import com.mshmidov.roller.shell.service.TableRegistry;
+import com.mshmidov.roller.core.service.TableLoader;
+import com.mshmidov.roller.core.service.TableRegistry;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.core.CommandMarker;
@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 @Component
 public class DiscoverTablesCommand implements CommandMarker {
 
-    @Autowired(required = false) private TableRegistry tableRegistry;
+    @Autowired private TableRegistry tableRegistry;
 
     @Autowired private TableLoader tableLoader;
 

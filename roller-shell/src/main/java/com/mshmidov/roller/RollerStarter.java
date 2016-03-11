@@ -1,4 +1,4 @@
-package com.mshmidov.roller.shell;
+package com.mshmidov.roller;
 
 import com.mshmidov.roller.shell.RollerJLineShellComponent;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;

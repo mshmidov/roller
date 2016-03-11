@@ -1,8 +1,8 @@
-package com.mshmidov.roller.shell.model;
+package com.mshmidov.roller.core.model;
 
 import com.google.common.base.Preconditions;
-import com.mshmidov.roller.shell.function.Functions;
-import com.mshmidov.roller.shell.function.IntToIntFunction;
+import com.mshmidov.roller.core.function.Functions;
+import com.mshmidov.roller.core.function.IntToIntFunction;
 import com.wandrell.tabletop.dice.notation.DiceExpression;
 import org.apache.commons.lang3.tuple.Pair;
 

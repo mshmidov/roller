@@ -1,8 +1,8 @@
-package com.mshmidov.roller.shell.function;
+package com.mshmidov.roller.core.function;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
-import com.mshmidov.roller.shell.model.Table;
+import com.mshmidov.roller.core.model.Table;
 import com.wandrell.tabletop.dice.notation.DiceExpression;
 import com.wandrell.tabletop.dice.notation.DiceExpressionComponent;
 import com.wandrell.tabletop.dice.notation.operation.Operand;

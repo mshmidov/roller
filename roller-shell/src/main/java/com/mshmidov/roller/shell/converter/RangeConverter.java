@@ -1,6 +1,6 @@
 package com.mshmidov.roller.shell.converter;
 
-import com.mshmidov.roller.shell.model.Range;
+import com.mshmidov.roller.core.model.Range;
 import org.springframework.shell.core.Completion;
 import org.springframework.shell.core.Converter;
 import org.springframework.shell.core.MethodTarget;

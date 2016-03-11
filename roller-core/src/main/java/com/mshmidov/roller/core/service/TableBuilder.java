@@ -1,9 +1,9 @@
-package com.mshmidov.roller.shell.service;
+package com.mshmidov.roller.core.service;
 
 import static java.util.Comparator.comparingInt;
 
-import com.mshmidov.roller.shell.model.Range;
-import com.mshmidov.roller.shell.model.Table;
+import com.mshmidov.roller.core.model.Range;
+import com.mshmidov.roller.core.model.Table;
 import com.wandrell.tabletop.dice.notation.DiceExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

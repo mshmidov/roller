@@ -1,7 +1,7 @@
 package com.mshmidov.roller.shell.command.table;
 
-import com.mshmidov.roller.shell.model.Table;
-import com.mshmidov.roller.shell.service.TableRegistry;
+import com.mshmidov.roller.core.model.Table;
+import com.mshmidov.roller.core.service.TableRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

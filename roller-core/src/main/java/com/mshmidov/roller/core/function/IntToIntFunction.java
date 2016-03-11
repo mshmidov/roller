@@ -1,4 +1,4 @@
-package com.mshmidov.roller.shell.function;
+package com.mshmidov.roller.core.function;
 
 @FunctionalInterface
 public interface IntToIntFunction {

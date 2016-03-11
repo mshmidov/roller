@@ -1,4 +1,4 @@
-package com.mshmidov.roller.shell.model;
+package com.mshmidov.roller.core.model;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
