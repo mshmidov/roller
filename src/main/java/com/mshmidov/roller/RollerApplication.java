@@ -32,6 +32,8 @@ public class RollerApplication {
         String[] commandsToExecuteAndThenQuit = commandLine.getShellCommandsToExecute();
         ExitShellRequest exitShellRequest = ExitShellRequest.NORMAL_EXIT;
 
+        discoverTablesCommand.execute();
+
         if (null != commandsToExecuteAndThenQuit) {
 
             for (String cmd : commandsToExecuteAndThenQuit) {
@@ -42,8 +44,6 @@ public class RollerApplication {
             }
 
         } else {
-
-            discoverTablesCommand.execute();
 
             shell.start();
             shell.promptLoop();
