@@ -1,6 +1,7 @@
 package com.mshmidov.roller.cli;
 
 import com.google.common.collect.ImmutableList;
+import com.mshmidov.roller.cli.command.ChoiceCommand;
 import com.mshmidov.roller.cli.command.Command;
 import com.mshmidov.roller.cli.command.DiceCommand;
 import com.mshmidov.roller.cli.command.TableCommand;
@@ -17,7 +18,7 @@ public class RollerCli {
 
     public static void main(String[] args) {
 
-        final Context context = new Context(() -> ImmutableList.of(new DiceCommand(), new TableCommand()));
+        final Context context = new Context(() -> ImmutableList.of(new DiceCommand(), new TableCommand(), new ChoiceCommand()));
         context.jCommander.setProgramName("roll.jar");
 
         discoverTables(new File("."), context.tableLoader).forEach(context.tableRegistry::putTable);

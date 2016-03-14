@@ -1,11 +1,11 @@
 package com.mshmidov.roller.cli.command;
 
-import static org.apache.commons.lang3.StringUtils.removeEnd;
-import static org.apache.commons.lang3.StringUtils.removeStart;
-
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.mshmidov.roller.cli.Context;
+import com.mshmidov.roller.cli.command.etc.OptionalIntegerConverter;
+import com.mshmidov.roller.cli.command.etc.OptionalStringConverter;
+import com.mshmidov.roller.cli.command.etc.TimesValidator;
 import com.mshmidov.roller.cli.error.IncorrectDiceExpressionException;
 import com.mshmidov.roller.cli.error.IncorrectTableNameException;
 import com.mshmidov.roller.core.function.Functions;
@@ -21,7 +21,7 @@ import java.util.stream.IntStream;
 @Parameters(commandNames = "table")
 public class TableCommand implements Command {
 
-    private static final Pattern SUBCOMMAND = Pattern.compile("\\{.+\\}");
+    private static final Pattern SUBCOMMAND = Pattern.compile("\\{(.+)\\}");
 
     @Parameter(required = true, description = "<table name>")
     private List<String> params;
@@ -51,8 +51,8 @@ public class TableCommand implements Command {
             return IntStream.range(0, times.orElse(1))
                     .map(i -> roll.getAsInt())
                     .mapToObj(table::getValue)
-                    .map(row -> Functions.replaceRegex(row, SUBCOMMAND,
-                            s -> context.newCommandLine().parse(removeEnd(removeStart(s, "{"), "}").split(" ")).execute(context)))
+                    .map(row -> Functions.replaceRegex(row, SUBCOMMAND, 1,
+                            match -> context.newCommandLine().parse(match.split(" ")).execute(context)))
                     .collect(Collectors.joining("\n"));
 
         } catch (IllegalStateException e) {

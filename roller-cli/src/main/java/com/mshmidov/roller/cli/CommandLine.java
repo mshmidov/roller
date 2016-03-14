@@ -1,4 +1,4 @@
-package com.mshmidov.roller.cli.command;
+package com.mshmidov.roller.cli;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -7,6 +7,7 @@ import ch.qos.logback.classic.Logger;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
+import com.mshmidov.roller.cli.command.Command;
 import com.mshmidov.roller.cli.error.IncorrectUsageException;
 import com.mshmidov.roller.cli.error.InternalErrorException;
 import org.slf4j.LoggerFactory;

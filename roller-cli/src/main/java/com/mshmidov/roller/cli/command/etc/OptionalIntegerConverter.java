@@ -1,4 +1,4 @@
-package com.mshmidov.roller.cli.command;
+package com.mshmidov.roller.cli.command.etc;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 

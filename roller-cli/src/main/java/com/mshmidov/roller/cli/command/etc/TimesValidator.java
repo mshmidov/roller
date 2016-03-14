@@ -1,4 +1,4 @@
-package com.mshmidov.roller.cli.command;
+package com.mshmidov.roller.cli.command.etc;
 
 import com.beust.jcommander.IValueValidator;
 import com.beust.jcommander.ParameterException;

@@ -52,11 +52,15 @@ public final class Functions {
     }
 
     public static String replaceRegex(String source, Pattern pattern, Function<String, String> replacement) {
+        return replaceRegex(source, pattern, 0, replacement);
+    }
+
+    public static String replaceRegex(String source, Pattern pattern, int group, Function<String, String> replacement) {
         final StringBuffer result = new StringBuffer();
 
         final Matcher matcher = pattern.matcher(source);
         while (matcher.find()) {
-            matcher.appendReplacement(result, replacement.apply(matcher.group()));
+            matcher.appendReplacement(result, replacement.apply(matcher.group(group)));
         }
         matcher.appendTail(result);
 

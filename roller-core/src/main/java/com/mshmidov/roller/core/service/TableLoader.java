@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -48,17 +49,7 @@ public final class TableLoader {
 
             } else {
 
-                TableBuilder tableBuilder = new TableBuilder(StringUtils.removeEnd(file.getName(), ".table"));
-
-                final Optional<DiceExpression> dice = getPotentialDiceExpression(lines.getFirst()).flatMap(this::parseDiceExpression);
-
-                if (dice.isPresent()) {
-                    lines.removeFirst();
-                }
-
-                lines.stream().map(this::parseRow).forEach(o -> o.ifPresent(p -> tableBuilder.addRow(p.getKey(), p.getValue())));
-
-                return tableBuilder.build(dice);
+                return createTable(StringUtils.removeEnd(file.getName(), ".table"), lines);
             }
 
 
@@ -69,10 +60,27 @@ public final class TableLoader {
         return Optional.empty();
     }
 
+
+    public Optional<Table> createTable(String name, Collection<String> definition) {
+        final LinkedList<String> lines = new LinkedList<>(definition);
+
+        final TableBuilder tableBuilder = new TableBuilder(name);
+
+        final Optional<DiceExpression> dice = getPotentialDiceExpression(lines.getFirst()).flatMap(this::parseDiceExpression);
+
+        if (dice.isPresent()) {
+            lines.removeFirst();
+        }
+
+        lines.stream().map(this::parseRow).forEach(o -> o.ifPresent(p -> tableBuilder.addRow(p.getKey(), p.getValue())));
+
+        return tableBuilder.build(dice);
+    }
+
     private Optional<String> getPotentialDiceExpression(String firstLine) {
         final List<String> parts = FIRST_SPACE_SPLITTER.splitToList(firstLine);
 
-        if (parts.size() == 2 && ImmutableSet.of("roll","dice").contains(parts.get(0).toLowerCase())) {
+        if (parts.size() == 2 && ImmutableSet.of("roll", "dice").contains(parts.get(0).toLowerCase())) {
             return Optional.of(parts.get(1));
         }
 
@@ -100,7 +108,9 @@ public final class TableLoader {
                 ? parseRange(parts.poll())
                 : Optional.empty();
 
-        return Optional.of(Pair.of(range, parts.getFirst()));
+        return Optional.of(Pair.of(
+                range,
+                range.map(r -> parts.getFirst()).orElse(line)));
     }
 
 
