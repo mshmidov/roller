@@ -11,6 +11,7 @@ import com.mshmidov.roller.cli.error.IncorrectUsageException;
 import com.mshmidov.roller.cli.error.InternalErrorException;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public final class CommandLine {
 
     private final Map<String, Command> commands = new HashMap<>();
 
-    public CommandLine(JCommander jCommander, Command... commands) {
+    public CommandLine(JCommander jCommander, Collection<Command> commands) {
 
         this.jCommander = jCommander;
 

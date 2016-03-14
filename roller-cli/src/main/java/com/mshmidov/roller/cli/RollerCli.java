@@ -1,7 +1,9 @@
 package com.mshmidov.roller.cli;
 
+import com.google.common.collect.ImmutableList;
 import com.mshmidov.roller.cli.command.Command;
 import com.mshmidov.roller.cli.command.DiceCommand;
+import com.mshmidov.roller.cli.command.TableCommand;
 import com.mshmidov.roller.cli.error.AbnormalExitException;
 import com.mshmidov.roller.cli.error.IncorrectUsageException;
 import com.mshmidov.roller.core.model.Table;
@@ -15,13 +17,13 @@ public class RollerCli {
 
     public static void main(String[] args) {
 
-        final Context context = new Context(new DiceCommand());
+        final Context context = new Context(() -> ImmutableList.of(new DiceCommand(), new TableCommand()));
         context.jCommander.setProgramName("roll.jar");
 
         discoverTables(new File("."), context.tableLoader).forEach(context.tableRegistry::putTable);
 
         try {
-            final Command command = context.commandLine.parse(args);
+            final Command command = context.newCommandLine().parse(args);
 
             System.out.println(command.execute(context));
 

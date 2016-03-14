@@ -1,0 +1,4 @@
+roll 1d6
+1-2 other result1 {dice 3d6}
+3-4 other result2 {dice 3d6}
+5-6 other result3 {dice 3d6}
