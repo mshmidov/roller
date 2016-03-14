@@ -1,8 +1,12 @@
 package com.mshmidov.roller.cli.command;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
+import com.mshmidov.roller.cli.error.IncorrectUsageException;
+import com.mshmidov.roller.cli.error.InternalErrorException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,13 +38,27 @@ public final class CommandLine {
     }
 
     public Command parse(String... args) {
-        jCommander.parse(args);
-        final Command command = commands.get(jCommander.getParsedCommand());
+        try {
+            jCommander.parse(args);
+            final Command command = commands.get(jCommander.getParsedCommand());
 
-        if (command == null) {
-            throw new ParameterException("Illegal command");
+            if (command == null) {
+                throw new InternalErrorException("Illegal command");
+            }
+
+            return command;
+
+        } catch (ParameterException e) {
+
+            final StringBuilder message = new StringBuilder();
+
+            if (!isBlank(jCommander.getParsedCommand())) {
+                jCommander.usage(jCommander.getParsedCommand(), message);
+            } else {
+                jCommander.usage(message);
+            }
+
+            throw new IncorrectUsageException(e, message.toString());
         }
-
-        return command;
     }
 }
