@@ -2,11 +2,14 @@ package com.mshmidov.roller.cli.command;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
 import com.mshmidov.roller.cli.error.IncorrectUsageException;
 import com.mshmidov.roller.cli.error.InternalErrorException;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +46,12 @@ public final class CommandLine {
             final Command command = commands.get(jCommander.getParsedCommand());
 
             if (command == null) {
-                throw new InternalErrorException("Illegal command");
+                throw new InternalErrorException("Cannot parse command");
+            }
+
+            if (command.isVerbose()) {
+                final Logger root = (Logger) LoggerFactory.getLogger("com.mshmidov.roller");
+                root.setLevel(Level.DEBUG);
             }
 
             return command;
