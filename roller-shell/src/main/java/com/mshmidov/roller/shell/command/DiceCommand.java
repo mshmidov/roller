@@ -13,8 +13,10 @@ import org.springframework.shell.core.annotation.CliCommand;
 import org.springframework.shell.core.annotation.CliOption;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Component
 public class DiceCommand implements CommandMarker {
@@ -27,7 +29,7 @@ public class DiceCommand implements CommandMarker {
     }
 
     @CliCommand(value = "dice", help = "produces random number based on dice notation")
-    public String execute(
+    public List<Integer> execute(
             @CliOption(key = "", help = "Conventional AD&D dice notation (eg '1d6+5' or '3d10')") final DiceExpression dice,
             @CliOption(key = { "times", "t" }, help = "repeat command more than one time", unspecifiedDefaultValue = "1") Integer times,
             @CliOption(key = { "verbose", "v" }, help = "enable debug output", specifiedDefaultValue = "true", unspecifiedDefaultValue = "false")
@@ -41,9 +43,9 @@ public class DiceCommand implements CommandMarker {
         try {
 
             return IntStream.range(0, times)
-                    .map(i -> Functions.rollDice(dice))
-                    .mapToObj(String::valueOf)
-                    .collect(Collectors.joining("\n"));
+                    .mapToObj(i -> Functions.rollDice(dice))
+                    .collect(Collectors.toList());
+
 
         } finally {
             if (verbose) {

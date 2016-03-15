@@ -1,22 +1,21 @@
 package com.mshmidov.roller.cli.command;
 
 import static com.mshmidov.roller.core.function.Functions.splitDefinition;
-import static com.mshmidov.roller.core.function.Functions.subcommandPattern;
+import static com.mshmidov.roller.core.function.Replacement.replaceSubcommands;
+import static com.mshmidov.roller.core.function.Replacement.subcommandPattern;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
-import com.google.common.base.Splitter;
 import com.mshmidov.roller.cli.Context;
 import com.mshmidov.roller.cli.command.etc.OptionalIntegerConverter;
 import com.mshmidov.roller.cli.command.etc.TimesValidator;
 import com.mshmidov.roller.core.error.IncorrectDiceExpressionException;
 import com.mshmidov.roller.core.error.IncorrectTableDefinitionException;
-import com.mshmidov.roller.core.function.Functions;
+import com.mshmidov.roller.core.function.Replacement;
 import com.mshmidov.roller.core.model.Table;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -46,8 +45,7 @@ public class ChoiceCommand implements Command {
             return IntStream.range(0, times.orElse(1))
                     .map(i -> choice.getRoll().getAsInt())
                     .mapToObj(choice::getValue)
-                    .map(row -> Functions.replaceRegex(row, subcommandPattern(), 1,
-                            match -> context.newCommandLine().parse(match.split(" ")).execute(context)))
+                    .map(row -> replaceSubcommands(row, subcommand -> context.newCommandLine().parse(subcommand.split(" ")).execute(context)))
                     .collect(Collectors.joining("\n"));
 
         } catch (IllegalStateException e) {

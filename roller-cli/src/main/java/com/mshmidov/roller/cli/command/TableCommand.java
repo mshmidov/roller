@@ -1,5 +1,7 @@
 package com.mshmidov.roller.cli.command;
 
+import static com.mshmidov.roller.core.function.Replacement.replaceSubcommands;
+
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.mshmidov.roller.cli.Context;
@@ -9,6 +11,7 @@ import com.mshmidov.roller.cli.command.etc.TimesValidator;
 import com.mshmidov.roller.core.error.IncorrectDiceExpressionException;
 import com.mshmidov.roller.core.error.IncorrectTableNameException;
 import com.mshmidov.roller.core.function.Functions;
+import com.mshmidov.roller.core.function.Replacement;
 import com.mshmidov.roller.core.model.Table;
 
 import java.util.List;
@@ -51,8 +54,7 @@ public class TableCommand implements Command {
             return IntStream.range(0, times.orElse(1))
                     .map(i -> roll.getAsInt())
                     .mapToObj(table::getValue)
-                    .map(row -> Functions.replaceRegex(row, SUBCOMMAND, 1,
-                            match -> context.newCommandLine().parse(match.split(" ")).execute(context)))
+                    .map(row -> replaceSubcommands(row, subcommand -> context.newCommandLine().parse(subcommand.split(" ")).execute(context)))
                     .collect(Collectors.joining("\n"));
 
         } catch (IllegalStateException e) {
