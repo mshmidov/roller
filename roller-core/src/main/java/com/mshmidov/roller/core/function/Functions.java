@@ -1,12 +1,15 @@
 package com.mshmidov.roller.core.function;
 
+import ch.qos.logback.classic.Level;
 import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.mshmidov.roller.core.model.Table;
 import com.wandrell.tabletop.dice.notation.DiceExpression;
 import com.wandrell.tabletop.dice.notation.DiceExpressionComponent;
 import com.wandrell.tabletop.dice.notation.operation.Operand;
 import com.wandrell.tabletop.dice.notation.operation.Operation;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class Functions {
+
+    private static final Pattern SUBCOMMAND = Pattern.compile("\\{(.+)\\}");
+
+    private static final Splitter DEFINITION_SPLITTER = Splitter.on(';').omitEmptyStrings().trimResults();
 
     private Functions() {}
 
@@ -65,6 +72,24 @@ public final class Functions {
         matcher.appendTail(result);
 
         return result.toString();
+    }
+
+    public static void enableDebugOutput(String loggerName) {
+        final ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(loggerName);
+        logger.setLevel(Level.DEBUG);
+    }
+
+    public static void disableDebugOutput(String loggerName) {
+        final ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(loggerName);
+        logger.setLevel(Level.OFF);
+    }
+
+    public static Pattern subcommandPattern() {
+        return SUBCOMMAND;
+    }
+
+    public static List<String> splitDefinition(String definition) {
+        return DEFINITION_SPLITTER.splitToList(definition);
     }
 
 }

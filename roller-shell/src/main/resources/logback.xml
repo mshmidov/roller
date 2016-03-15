@@ -13,15 +13,16 @@
         </encoder>
     </appender>
 
-    <logger name="org.springframework" level="WARN"/>
 
-    <logger name="org.springframework.shell" level="INFO" >
+    <logger name="org.springframework.shell" level="OFF" >
         <appender-ref ref="SHELL"/>
     </logger>
 
-    <logger name="com.mshmidov.roller" level="DEBUG" >
+    <logger name="com.mshmidov.roller" level="OFF" >
         <appender-ref ref="SHELL"/>
     </logger>
+
+    <logger name="org.springframework" level="DEBUG"/>
 
     <root level="WARN">
         <appender-ref ref="FILE"/>

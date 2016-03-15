@@ -2,15 +2,13 @@ package com.mshmidov.roller.cli;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
 import com.mshmidov.roller.cli.command.Command;
-import com.mshmidov.roller.cli.error.IncorrectUsageException;
-import com.mshmidov.roller.cli.error.InternalErrorException;
-import org.slf4j.LoggerFactory;
+import com.mshmidov.roller.core.error.IncorrectUsageException;
+import com.mshmidov.roller.core.error.InternalErrorException;
+import com.mshmidov.roller.core.function.Functions;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -52,8 +50,7 @@ public final class CommandLine {
             }
 
             if (command.isVerbose()) {
-                final Logger root = (Logger) LoggerFactory.getLogger("com.mshmidov.roller");
-                root.setLevel(Level.DEBUG);
+                Functions.enableDebugOutput("com.mshmidov.roller");
             }
 
             return command;

@@ -5,7 +5,7 @@ import com.beust.jcommander.Parameters;
 import com.mshmidov.roller.cli.Context;
 import com.mshmidov.roller.cli.command.etc.OptionalIntegerConverter;
 import com.mshmidov.roller.cli.command.etc.TimesValidator;
-import com.mshmidov.roller.cli.error.IncorrectDiceExpressionException;
+import com.mshmidov.roller.core.error.IncorrectDiceExpressionException;
 import com.mshmidov.roller.core.function.Functions;
 import com.wandrell.tabletop.dice.notation.DiceExpression;
 
@@ -20,7 +20,7 @@ public class DiceCommand implements Command {
     @Parameter(required = true, description = "<dice expression>")
     private List<String> params;
 
-    @Parameter(names = { "--times", "-t" }, description = "dice expression to use instead of default table dice",
+    @Parameter(names = { "--times", "-t" }, description = "repeat command more than one time",
                converter = OptionalIntegerConverter.class, validateValueWith = TimesValidator.class)
     private Optional<Integer> times = Optional.empty();
 

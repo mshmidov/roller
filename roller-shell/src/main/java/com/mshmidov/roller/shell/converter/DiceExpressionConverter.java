@@ -1,5 +1,6 @@
 package com.mshmidov.roller.shell.converter;
 
+import com.mshmidov.roller.core.error.IncorrectDiceExpressionException;
 import com.wandrell.tabletop.dice.notation.DiceExpression;
 import com.wandrell.tabletop.dice.parser.DiceExpressionParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +14,26 @@ import java.util.List;
 @Component
 public class DiceExpressionConverter implements Converter<DiceExpression> {
 
-	@Autowired private DiceExpressionParser diceExpressionParser;
+    @Autowired private DiceExpressionParser diceExpressionParser;
 
-	@Override
-	public DiceExpression convertFromText(final String value, final Class<?> requiredType, final String optionContext) {
-		return diceExpressionParser.parse(value);
-	}
+    @Override
+    public DiceExpression convertFromText(final String value, final Class<?> requiredType, final String optionContext) {
+        try {
+            return diceExpressionParser.parse(value);
 
-	@Override
-	public boolean getAllPossibleValues(final List<Completion> completions, final Class<?> requiredType,
-			final String existingData, final String optionContext, final MethodTarget target) {
-		return false;
-	}
+        } catch (IllegalStateException e) {
+            throw new IncorrectDiceExpressionException(e);
+        }
+    }
 
-	@Override
-	public boolean supports(final Class<?> requiredType, final String optionContext) {
-		return DiceExpression.class.isAssignableFrom(requiredType);
-	}
+    @Override
+    public boolean getAllPossibleValues(final List<Completion> completions, final Class<?> requiredType,
+            final String existingData, final String optionContext, final MethodTarget target) {
+        return false;
+    }
+
+    @Override
+    public boolean supports(final Class<?> requiredType, final String optionContext) {
+        return DiceExpression.class.isAssignableFrom(requiredType);
+    }
 }

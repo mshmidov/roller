@@ -6,8 +6,8 @@ import com.mshmidov.roller.cli.Context;
 import com.mshmidov.roller.cli.command.etc.OptionalIntegerConverter;
 import com.mshmidov.roller.cli.command.etc.OptionalStringConverter;
 import com.mshmidov.roller.cli.command.etc.TimesValidator;
-import com.mshmidov.roller.cli.error.IncorrectDiceExpressionException;
-import com.mshmidov.roller.cli.error.IncorrectTableNameException;
+import com.mshmidov.roller.core.error.IncorrectDiceExpressionException;
+import com.mshmidov.roller.core.error.IncorrectTableNameException;
 import com.mshmidov.roller.core.function.Functions;
 import com.mshmidov.roller.core.model.Table;
 
@@ -30,7 +30,7 @@ public class TableCommand implements Command {
                converter = OptionalIntegerConverter.class, validateValueWith = TimesValidator.class)
     private Optional<Integer> times = Optional.empty();
 
-    @Parameter(names = { "--dice", "-d" }, description = "repeat command more than one time", converter = OptionalStringConverter.class)
+    @Parameter(names = { "--dice", "-d" }, description = "dice expression to use instead of table default", converter = OptionalStringConverter.class)
     private Optional<String> dice = Optional.empty();
 
     @Parameter(names = { "--verbose", "-v" }, description = "enable debug output")

@@ -1,4 +1,4 @@
-package com.mshmidov.roller.cli.error;
+package com.mshmidov.roller.core.error;
 
 public final class IncorrectTableDefinitionException extends AbnormalExitException {
 

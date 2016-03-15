@@ -1,8 +1,11 @@
 package com.mshmidov.roller.shell.converter;
 
+import com.mshmidov.roller.core.error.IncorrectTableNameException;
 import com.mshmidov.roller.core.model.Table;
 import com.mshmidov.roller.core.service.TableRegistry;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.core.Completion;
 import org.springframework.shell.core.Converter;
@@ -14,11 +17,14 @@ import java.util.List;
 @Component
 public class TableConverter implements Converter<Table> {
 
+    private static final Logger logger = LoggerFactory.getLogger(TableConverter.class);
+
     @Autowired private TableRegistry tableRegistry;
 
     @Override
     public Table convertFromText(final String value, final Class<?> requiredType, final String optionContext) {
-        return tableRegistry.getTable(value).orElse(null);
+        return tableRegistry.getTable(value)
+                .orElseThrow(() -> new IncorrectTableNameException("Unknown table: " + value));
     }
 
     @Override

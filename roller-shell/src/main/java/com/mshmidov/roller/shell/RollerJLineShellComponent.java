@@ -6,6 +6,8 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import jline.TerminalFactory;
 import jline.console.ConsoleReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.shell.TerminalSizeAware;
 import org.springframework.shell.core.CommandResult;
 import org.springframework.shell.core.JLineShellComponent;
@@ -15,6 +17,8 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 public class RollerJLineShellComponent extends JLineShellComponent {
+
+    private static final Logger logger = LoggerFactory.getLogger(RollerJLineShellComponent.class);
 
     private final Deque<Boolean> interactive = new LinkedList<>();
 
@@ -38,13 +42,14 @@ public class RollerJLineShellComponent extends JLineShellComponent {
         try {
             reader.println(s);
         } catch (IOException e) {
-            logger.severe(e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 
     public CommandResult executeNonInteractiveCommand(String line) {
         pushInteractive(false);
         try {
+            logger.debug("Executing non-interactive command: "+line);
             return super.executeCommand(line);
         } finally {
             popInteractive();
@@ -60,10 +65,10 @@ public class RollerJLineShellComponent extends JLineShellComponent {
 
         } else if (result instanceof TerminalSizeAware && isInteractive()) {
             int width = TerminalFactory.get().getWidth();
-            logger.info(((TerminalSizeAware) result).render(width).toString());
+            System.out.println(((TerminalSizeAware) result).render(width).toString());
 
         } else if (isInteractive()) {
-            logger.info(result.toString());
+            System.out.println(result.toString());
         }
     }
 }

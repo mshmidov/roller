@@ -16,16 +16,18 @@ import java.util.stream.Stream;
 @Component
 public class DiscoverTablesCommand implements CommandMarker {
 
+    public static final String KEYWORD = "discover tables";
+
     @Autowired private TableRegistry tableRegistry;
 
     @Autowired private TableLoader tableLoader;
 
-    @CliAvailabilityIndicator(value = "discover tables")
+    @CliAvailabilityIndicator(value = KEYWORD)
     public boolean isAvailable() {
         return true;
     }
 
-    @CliCommand(value = "discover tables", help = "tries to recursively find and run all scripts named `*.table` starting from current directory")
+    @CliCommand(value = KEYWORD, help = "tries to recursively find and run all scripts named `*.table` starting from current directory")
     public void execute() {
         final Collection<File> tables = FileUtils.listFiles(new File("."), new String[] { "table" }, true);
 

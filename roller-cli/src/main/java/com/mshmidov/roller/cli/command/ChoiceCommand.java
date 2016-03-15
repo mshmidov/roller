@@ -1,13 +1,16 @@
 package com.mshmidov.roller.cli.command;
 
+import static com.mshmidov.roller.core.function.Functions.splitDefinition;
+import static com.mshmidov.roller.core.function.Functions.subcommandPattern;
+
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.google.common.base.Splitter;
 import com.mshmidov.roller.cli.Context;
 import com.mshmidov.roller.cli.command.etc.OptionalIntegerConverter;
 import com.mshmidov.roller.cli.command.etc.TimesValidator;
-import com.mshmidov.roller.cli.error.IncorrectDiceExpressionException;
-import com.mshmidov.roller.cli.error.IncorrectTableDefinitionException;
+import com.mshmidov.roller.core.error.IncorrectDiceExpressionException;
+import com.mshmidov.roller.core.error.IncorrectTableDefinitionException;
 import com.mshmidov.roller.core.function.Functions;
 import com.mshmidov.roller.core.model.Table;
 
@@ -19,10 +22,6 @@ import java.util.stream.IntStream;
 
 @Parameters(commandNames = "choice")
 public class ChoiceCommand implements Command {
-
-    private static final Splitter DEFINITION_SPLITTER = Splitter.on(';').omitEmptyStrings().trimResults();
-
-    private static final Pattern SUBCOMMAND = Pattern.compile("\\{(.+)\\}");
 
     @Parameter(required = true, description = "impromptu table definition")
     private List<String> params;
@@ -39,15 +38,15 @@ public class ChoiceCommand implements Command {
 
         try {
 
-            final List<String> definition = DEFINITION_SPLITTER.splitToList(params.get(0));
+            final List<String> definitionLines = splitDefinition(params.get(0));
 
-            final Table choice = context.tableLoader.createTable("choice", definition)
+            final Table choice = context.tableLoader.createTable("choice", definitionLines)
                     .orElseThrow(() -> new IncorrectTableDefinitionException("Incorrect table definition: " + params.get(0)));
 
             return IntStream.range(0, times.orElse(1))
                     .map(i -> choice.getRoll().getAsInt())
                     .mapToObj(choice::getValue)
-                    .map(row -> Functions.replaceRegex(row, SUBCOMMAND, 1,
+                    .map(row -> Functions.replaceRegex(row, subcommandPattern(), 1,
                             match -> context.newCommandLine().parse(match.split(" ")).execute(context)))
                     .collect(Collectors.joining("\n"));
 

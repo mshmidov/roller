@@ -21,9 +21,6 @@ public class RollerApplication {
     @Autowired(required = false) private CommandLine commandLine;
     @Autowired(required = false) private RollerJLineShellComponent shell;
 
-    @Autowired private DiscoverTablesCommand discoverTablesCommand;
-
-
     @Bean
     public DiceExpressionParser diceExpressionParser() {
         return new DiceExpressionParser();
@@ -44,7 +41,9 @@ public class RollerApplication {
         String[] commandsToExecuteAndThenQuit = commandLine.getShellCommandsToExecute();
         ExitShellRequest exitShellRequest = ExitShellRequest.NORMAL_EXIT;
 
-        discoverTablesCommand.execute();
+        if (!shell.executeCommand(DiscoverTablesCommand.KEYWORD).isSuccess()) {
+            return ExitShellRequest.FATAL_EXIT;
+        }
 
         if (null != commandsToExecuteAndThenQuit) {
 
