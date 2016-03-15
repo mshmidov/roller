@@ -5,7 +5,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import com.mshmidov.roller.core.service.TableLoader;
 import com.mshmidov.roller.core.service.TableRegistry;
 import com.mshmidov.roller.shell.RollerJLineShellComponent;
-import com.mshmidov.roller.shell.command.table.DiscoverTablesCommand;
+import com.mshmidov.roller.shell.command.etc.DiscoverTablesCommand;
 import com.wandrell.tabletop.dice.parser.DiceExpressionParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

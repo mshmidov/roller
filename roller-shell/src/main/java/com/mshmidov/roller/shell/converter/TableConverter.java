@@ -1,6 +1,6 @@
 package com.mshmidov.roller.shell.converter;
 
-import com.mshmidov.roller.core.error.IncorrectTableNameException;
+import com.mshmidov.roller.core.error.UnknownTableException;
 import com.mshmidov.roller.core.model.Table;
 import com.mshmidov.roller.core.service.TableRegistry;
 import org.apache.commons.lang3.StringUtils;
@@ -24,7 +24,7 @@ public class TableConverter implements Converter<Table> {
     @Override
     public Table convertFromText(final String value, final Class<?> requiredType, final String optionContext) {
         return tableRegistry.getTable(value)
-                .orElseThrow(() -> new IncorrectTableNameException("Unknown table: " + value));
+                .orElseThrow(() -> new UnknownTableException("Unknown table: " + value));
     }
 
     @Override

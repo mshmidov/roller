@@ -2,17 +2,15 @@ package com.mshmidov.roller.core.error;
 
 public final class InternalErrorException extends AbnormalExitException {
 
-    private static final int CODE = 99;
-
     public InternalErrorException(String message) {
-        super(message, CODE);
+        super(message, ErrorCode.INTERNAL_ERROR.code);
     }
 
     public InternalErrorException(String message, Throwable cause) {
-        super(message, cause, CODE);
+        super(message, cause, ErrorCode.INTERNAL_ERROR.code);
     }
 
     public InternalErrorException(Throwable cause) {
-        super(cause, CODE);
+        super(cause, ErrorCode.INTERNAL_ERROR.code);
     }
 }

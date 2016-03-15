@@ -2,17 +2,15 @@ package com.mshmidov.roller.core.error;
 
 public final class IncorrectDiceExpressionException extends AbnormalExitException {
 
-    private static final int CODE = 2;
-
     public IncorrectDiceExpressionException(String message) {
-        super(message, CODE);
+        super(message, ErrorCode.INCORRECT_DICE_EXPRESSION.code);
     }
 
     public IncorrectDiceExpressionException(String message, Throwable cause) {
-        super(message, cause, CODE);
+        super(message, cause, ErrorCode.INCORRECT_DICE_EXPRESSION.code);
     }
 
     public IncorrectDiceExpressionException(Throwable cause) {
-        super(cause, CODE);
+        super(cause, ErrorCode.INCORRECT_DICE_EXPRESSION.code);
     }
 }

@@ -1,4 +1,4 @@
-package com.mshmidov.roller.shell.command.table;
+package com.mshmidov.roller.shell.command.etc;
 
 import com.mshmidov.roller.core.function.Rendering;
 import com.mshmidov.roller.core.model.Table;

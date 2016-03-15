@@ -2,17 +2,15 @@ package com.mshmidov.roller.core.error;
 
 public final class IncorrectTableDefinitionException extends AbnormalExitException {
 
-    private static final int CODE = 4;
-
     public IncorrectTableDefinitionException(String message) {
-        super(message, CODE);
+        super(message, ErrorCode.INCORRECT_TABLE_DEFINITION.code);
     }
 
     public IncorrectTableDefinitionException(String message, Throwable cause) {
-        super(message, cause, CODE);
+        super(message, cause, ErrorCode.INCORRECT_TABLE_DEFINITION.code);
     }
 
     public IncorrectTableDefinitionException(Throwable cause) {
-        super(cause, CODE);
+        super(cause, ErrorCode.INCORRECT_TABLE_DEFINITION.code);
     }
 }

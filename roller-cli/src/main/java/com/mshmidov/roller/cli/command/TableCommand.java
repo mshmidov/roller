@@ -9,9 +9,8 @@ import com.mshmidov.roller.cli.command.etc.OptionalIntegerConverter;
 import com.mshmidov.roller.cli.command.etc.OptionalStringConverter;
 import com.mshmidov.roller.cli.command.etc.TimesValidator;
 import com.mshmidov.roller.core.error.IncorrectDiceExpressionException;
-import com.mshmidov.roller.core.error.IncorrectTableNameException;
+import com.mshmidov.roller.core.error.UnknownTableException;
 import com.mshmidov.roller.core.function.Functions;
-import com.mshmidov.roller.core.function.Replacement;
 import com.mshmidov.roller.core.model.Table;
 
 import java.util.List;
@@ -46,7 +45,7 @@ public class TableCommand implements Command {
             final String tableName = params.get(0);
 
             final Table table = context.tableRegistry.getTable(tableName)
-                    .orElseThrow(() -> new IncorrectTableNameException("Unknown table: " + tableName));
+                    .orElseThrow(() -> new UnknownTableException("Unknown table: " + tableName));
 
             final IntSupplier roll = dice.map(context.diceExpressionParser::parse).map(Functions::diceRollSupplier)
                     .orElse(table.getRoll());
