@@ -7,6 +7,7 @@ public enum ErrorCode {
     INCORRECT_TABLE_DEFINITION(4),
     INCORRECT_VARIABLE_NAME(5),
     UNKNOWN_VARIABLE(6),
+    INCORRECT_CONDITION(7),
     INTERNAL_ERROR(99);
 
     public final int code;
