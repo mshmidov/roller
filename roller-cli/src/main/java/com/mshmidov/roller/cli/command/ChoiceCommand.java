@@ -2,7 +2,6 @@ package com.mshmidov.roller.cli.command;
 
 import static com.mshmidov.roller.core.function.Functions.splitDefinition;
 import static com.mshmidov.roller.core.function.Replacement.replaceSubcommands;
-import static com.mshmidov.roller.core.function.Replacement.subcommandPattern;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
@@ -11,7 +10,6 @@ import com.mshmidov.roller.cli.command.etc.OptionalIntegerConverter;
 import com.mshmidov.roller.cli.command.etc.TimesValidator;
 import com.mshmidov.roller.core.error.IncorrectDiceExpressionException;
 import com.mshmidov.roller.core.error.IncorrectTableDefinitionException;
-import com.mshmidov.roller.core.function.Replacement;
 import com.mshmidov.roller.core.model.Table;
 
 import java.util.List;
