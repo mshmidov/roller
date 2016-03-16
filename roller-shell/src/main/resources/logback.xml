@@ -22,7 +22,7 @@
         <appender-ref ref="SHELL"/>
     </logger>
 
-    <logger name="org.springframework" level="DEBUG"/>
+    <logger name="org.springframework" level="WARN"/>
 
     <root level="WARN">
         <appender-ref ref="FILE"/>

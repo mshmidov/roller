@@ -1,20 +1,14 @@
-package com.mshmidov.roller.shell.command.etc;
+package com.mshmidov.roller.shell.command.supplier;
 
 import com.mshmidov.roller.core.function.Rendering;
 import com.mshmidov.roller.core.model.Table;
-import org.springframework.shell.core.CommandMarker;
-import org.springframework.shell.core.annotation.CliAvailabilityIndicator;
+import com.mshmidov.roller.shell.command.AbstractCommand;
 import org.springframework.shell.core.annotation.CliCommand;
 import org.springframework.shell.core.annotation.CliOption;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ShowTableCommand implements CommandMarker {
-
-    @CliAvailabilityIndicator(value = "show table")
-    public boolean isAvailable() {
-        return true;
-    }
+public class TableShowCommand extends AbstractCommand {
 
     @CliCommand(value = "show table", help = "displays a table")
     public String execute(@CliOption(key = { "", "name" }, mandatory = true, help = "Name of the table to show") Table table) {

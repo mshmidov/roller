@@ -1,11 +1,10 @@
-package com.mshmidov.roller.shell.command.etc;
+package com.mshmidov.roller.shell.command.supplier;
 
 import com.mshmidov.roller.core.service.TableLoader;
 import com.mshmidov.roller.core.service.TableRegistry;
+import com.mshmidov.roller.shell.command.AbstractCommand;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.shell.core.CommandMarker;
-import org.springframework.shell.core.annotation.CliAvailabilityIndicator;
 import org.springframework.shell.core.annotation.CliCommand;
 import org.springframework.stereotype.Component;
 
@@ -14,18 +13,13 @@ import java.util.Collection;
 import java.util.stream.Stream;
 
 @Component
-public class DiscoverTablesCommand implements CommandMarker {
+public class TableDiscoverCommand extends AbstractCommand {
 
     public static final String KEYWORD = "discover tables";
 
     @Autowired private TableRegistry tableRegistry;
 
     @Autowired private TableLoader tableLoader;
-
-    @CliAvailabilityIndicator(value = KEYWORD)
-    public boolean isAvailable() {
-        return true;
-    }
 
     @CliCommand(value = KEYWORD, help = "tries to recursively find and run all scripts named `*.table` starting from current directory")
     public void execute() {
