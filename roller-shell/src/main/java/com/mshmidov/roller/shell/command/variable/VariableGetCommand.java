@@ -27,10 +27,15 @@ public class VariableGetCommand extends AbstractCommand {
     @CliCommand(value = "get", help = "get a variable value")
     public String execute(
             @Expand @CliOption(key = "", help = "variable name") final String name,
+            @CliOption(key = "defined", help = "return if variable is defined", specifiedDefaultValue = "true", unspecifiedDefaultValue = "false")
+            boolean checkDefined,
             @Verbose @CliOption(key = { "verbose", "v" }, help = "enable debug output", specifiedDefaultValue = "true", unspecifiedDefaultValue = "false")
             boolean verbose) {
 
-        return variables.get(name).orElseThrow(() -> new UnknownVariableException("Unknown variable: " + name));
+        final Optional<String> value = variables.get(name);
+        return checkDefined
+                ? String.valueOf(value.isPresent())
+                : value.orElseThrow(() -> new UnknownVariableException("Unknown variable: " + name));
     }
 
 
