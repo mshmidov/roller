@@ -2,8 +2,6 @@ package com.mshmidov.roller.shell;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.collect.ImmutableList;
 import jline.TerminalFactory;
 import jline.console.ConsoleReader;
 import org.slf4j.Logger;
@@ -11,8 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.shell.TerminalSizeAware;
 import org.springframework.shell.core.CommandResult;
 import org.springframework.shell.core.JLineShellComponent;
+import org.springframework.util.ReflectionUtils;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -21,6 +21,12 @@ public class RollerJLineShellComponent extends JLineShellComponent {
     private static final Logger logger = LoggerFactory.getLogger(RollerJLineShellComponent.class);
 
     private final Deque<Boolean> interactive = new LinkedList<>();
+
+    public RollerJLineShellComponent() throws NoSuchFieldException, IllegalAccessException {
+        final Field field = JLineShellComponent.class.getDeclaredField("executionStrategy");
+        ReflectionUtils.makeAccessible(field);
+        field.set(this, new RollerExecutionStrategy());
+    }
 
     public boolean isInteractive() {
         return firstNonNull(interactive.peek(), true);

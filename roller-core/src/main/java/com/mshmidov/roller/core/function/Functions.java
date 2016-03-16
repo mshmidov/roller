@@ -47,7 +47,7 @@ public final class Functions {
 
     public static void disableDebugOutput(String loggerName) {
         final ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(loggerName);
-        logger.setLevel(Level.OFF);
+        logger.setLevel(Level.ERROR);
     }
 
     public static List<String> splitDefinition(String definition) {

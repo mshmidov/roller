@@ -14,11 +14,11 @@
     </appender>
 
 
-    <logger name="org.springframework.shell" level="OFF" >
+    <logger name="org.springframework.shell" level="ERROR" >
         <appender-ref ref="SHELL"/>
     </logger>
 
-    <logger name="com.mshmidov.roller" level="OFF" >
+    <logger name="com.mshmidov.roller" level="ERROR" >
         <appender-ref ref="SHELL"/>
     </logger>
 
