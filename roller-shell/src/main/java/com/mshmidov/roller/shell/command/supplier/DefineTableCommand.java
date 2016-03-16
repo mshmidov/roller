@@ -24,7 +24,7 @@ public class DefineTableCommand extends AbstractCommand {
     @Autowired private TableRegistry tableRegistry;
 
     @CliCommand(value = "define table", help = "defines new table")
-    public Table execute(
+    public void execute(
             @Expand @CliOption(key = "", help = "impromptu table definition") final String definition,
             @Expand @CliOption(key = "name", help = "impromptu table definition", mandatory = true) final String name,
             @Verbose @CliOption(key = { "verbose", "v" }, help = "enable debug output", specifiedDefaultValue = "true", unspecifiedDefaultValue = "false")
@@ -36,7 +36,5 @@ public class DefineTableCommand extends AbstractCommand {
                 .orElseThrow(() -> new IncorrectTableDefinitionException("Incorrect table definition: " + definition));
 
         tableRegistry.putTable(table);
-
-        return table;
     }
 }
