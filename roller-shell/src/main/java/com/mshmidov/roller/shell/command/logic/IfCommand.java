@@ -1,5 +1,7 @@
 package com.mshmidov.roller.shell.command.logic;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 import com.mshmidov.roller.core.error.IncorrectConditionException;
 import com.mshmidov.roller.shell.RollerJLineShellComponent;
 import com.mshmidov.roller.shell.command.AbstractCommand;
@@ -26,25 +28,30 @@ public class IfCommand extends AbstractCommand {
     @Autowired(required = false) private RollerJLineShellComponent shell;
 
     @CliCommand(value = "if", help = "evaluate a result based on condition")
-    public String execute(
+    public void execute(
             @Expand @CliOption(key = "", help = "condition") final String condition,
-            @Expand @CliOption(key = "then", mandatory = true) String thenValue,
-            @Expand @CliOption(key = "else", unspecifiedDefaultValue = "") String elseValue,
+            @CliOption(key = "then", mandatory = true) String thenValue,
+            @CliOption(key = "else", unspecifiedDefaultValue = "") String elseValue,
             @Verbose @CliOption(key = { "verbose", "v" }, help = "enable debug output", specifiedDefaultValue = "true", unspecifiedDefaultValue = "false")
             boolean verbose) {
 
         logger.debug("if {} then {} else {}", condition, thenValue, elseValue);
 
         for (Operator operator : Operator.values()) {
-            if (condition.contains(operator.operator)){
+            if (condition.contains(operator.operator)) {
                 final String[] operands = condition.split(operator.operator, 2);
                 if (operands.length != 2) {
                     throw new IncorrectConditionException("Incorrect condition: " + condition);
                 }
                 if (operator.predicate.apply(operands[0], operands[1])) {
-                    return thenValue;
+                    shell.executeNonInteractiveCommand(thenValue);
+                    return;
+
                 } else {
-                    return elseValue;
+                    if (isNotBlank(elseValue)) {
+                        shell.executeNonInteractiveCommand(elseValue);
+                    }
+                    return;
                 }
             }
         }
