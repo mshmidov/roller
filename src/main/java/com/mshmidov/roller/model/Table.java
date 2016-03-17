@@ -66,6 +66,10 @@ public final class Table {
         return rowIndex.get(bounds.apply(index));
     }
 
+    public String rollValue() {
+        return getValue(getRoll().getAsInt());
+    }
+
     @Override
     public String toString() {
         return description;

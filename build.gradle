@@ -24,6 +24,7 @@ dependencies {
     compile 'com.wandrell.tabletop:dice:0.1.0'
     compile 'com.google.guava:guava:19.0'
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'it.unimi.dsi:dsiutils:2.3.0'
 
     compile 'org.slf4j:slf4j-api:1.7.18'
     compile 'org.slf4j:jcl-over-slf4j:1.7.18'

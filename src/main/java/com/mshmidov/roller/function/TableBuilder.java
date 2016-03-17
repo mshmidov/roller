@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Optional;
 import java.util.TreeMap;
 
-final class TableBuilder {
+public final class TableBuilder {
 
     private static final Logger logger = LoggerFactory.getLogger(TableBuilder.class);
 
@@ -23,6 +23,16 @@ final class TableBuilder {
 
     public TableBuilder(String name) {
         this.name = name;
+    }
+
+    public TableBuilder row(Range range, String row) {
+        addRow(Optional.of(range), row);
+        return this;
+    }
+
+    public TableBuilder row(String row) {
+        addRow(Optional.empty(), row);
+        return this;
     }
 
     public void addRow(Optional<Range> range, String row) {
