@@ -1,0 +1,45 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eu.appsatori.fatjar'
+
+sourceCompatibility = 1.8
+
+ext.mainClassName = "com.mshmidov.roller.Roller"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    compile 'com.wandrell.tabletop:dice:0.1.0'
+    compile 'com.google.guava:guava:19.0'
+    compile 'org.apache.commons:commons-lang3:3.4'
+
+    compile 'org.slf4j:slf4j-api:1.7.18'
+    compile 'org.slf4j:jcl-over-slf4j:1.7.18'
+    compile 'ch.qos.logback:logback-classic:1.1.6'
+}
+
+fatJar {
+//    jar.archiveName = "roller.jar"
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
+
+build.doLast {
+    fatJar.execute()
+}

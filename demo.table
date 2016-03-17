@@ -1,4 +1,0 @@
-dice 1d6
-1-2 result1 {table other}
-3-4 result2 {table other}
-5-6 result3 {table other}
