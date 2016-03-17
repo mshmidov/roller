@@ -15,17 +15,17 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.IntSupplier;
 import java.util.stream.Collectors;
 
-public final class Table {
+public final class Table<T> {
 
     private final String name;
-    private final TreeMap<Range, String> rows;
-    private final TreeMap<Integer, String> rowIndex;
+    private final TreeMap<Range, T> rows;
+    private final TreeMap<Integer, T> rowIndex;
     private final IntSupplier roll;
 
     private final IntToIntFunction bounds;
     private final String description;
 
-    public Table(String name, TreeMap<Range, String> rows, Optional<DiceExpression> roll) {
+    public Table(String name, TreeMap<Range, T> rows, Optional<DiceExpression> roll) {
         this.name = name;
         this.rows = new TreeMap<>(rows);
         this.rowIndex = rows.entrySet().stream()
@@ -54,7 +54,7 @@ public final class Table {
         return name;
     }
 
-    public NavigableMap<Range, String> getRows() {
+    public NavigableMap<Range, T> getRows() {
         return Collections.unmodifiableNavigableMap(rows);
     }
 
@@ -62,12 +62,16 @@ public final class Table {
         return roll;
     }
 
-    public String getValue(int index) {
+    public T getValue(int index) {
         return rowIndex.get(bounds.apply(index));
     }
 
-    public String rollValue() {
+    public T rollValue() {
         return getValue(getRoll().getAsInt());
+    }
+
+    public T rollValue(int modifier) {
+        return getValue(getRoll().getAsInt() + modifier);
     }
 
     @Override
@@ -75,7 +79,7 @@ public final class Table {
         return description;
     }
 
-    public static boolean checkContinuity(TreeMap<Integer, String> rows) {
+    public static boolean checkContinuity(TreeMap<Integer, ?> rows) {
         return rows.lastKey() - rows.firstKey() == rows.size() - 1;
     }
 }

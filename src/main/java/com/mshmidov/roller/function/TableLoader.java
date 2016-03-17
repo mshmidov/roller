@@ -36,7 +36,7 @@ public final class TableLoader {
         this.diceExpressionParser = diceExpressionParser;
     }
 
-    public Optional<Table> loadTable(File file) {
+    public Optional<Table<String>> loadTable(File file) {
 
         try {
 
@@ -61,7 +61,7 @@ public final class TableLoader {
     }
 
 
-    public Optional<Table> createTable(String name, Collection<String> definition) {
+    public Optional<Table<String>> createTable(String name, Collection<String> definition) {
         final LinkedList<String> lines = new LinkedList<>(definition);
 
         final TableBuilder tableBuilder = new TableBuilder(name);

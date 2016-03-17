@@ -1,4 +1,4 @@
-package com.mshmidov.roller.rollers.official;
+package com.mshmidov.roller.rollers.omorye;
 
 public enum Descent {
     PEASANT,
@@ -6,4 +6,5 @@ public enum Descent {
     MERCHANT,
     NOBLE,
     BOYAR;
+
 }

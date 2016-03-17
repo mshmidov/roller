@@ -11,13 +11,13 @@ import org.slf4j.LoggerFactory;
 import java.util.Optional;
 import java.util.TreeMap;
 
-public final class TableBuilder {
+public final class TableBuilder<T> {
 
     private static final Logger logger = LoggerFactory.getLogger(TableBuilder.class);
 
     private final String name;
 
-    private final TreeMap<Range, String> rows = new TreeMap<>(comparingInt(Range::getLower));
+    private final TreeMap<Range, T> rows = new TreeMap<>(comparingInt(Range::getLower));
 
     private boolean erroneous = false;
 
@@ -25,24 +25,24 @@ public final class TableBuilder {
         this.name = name;
     }
 
-    public TableBuilder row(Range range, String row) {
+    public TableBuilder<T> row(Range range, T row) {
         addRow(Optional.of(range), row);
         return this;
     }
 
-    public TableBuilder row(String row) {
+    public TableBuilder<T> row(T row) {
         addRow(Optional.empty(), row);
         return this;
     }
 
-    public void addRow(Optional<Range> range, String row) {
+    public void addRow(Optional<Range> range, T row) {
 
         final Range effectiveRange = range.orElseGet(() -> new Range(rows.isEmpty() ? 1 : rows.lastKey().getUpper() + 1));
 
         final boolean intersects = rows.keySet().stream().anyMatch(effectiveRange::intersects);
 
         if (intersects) {
-            logger.warn("Row range intersects with already existing row(s). Row will not be added.");
+            logger.error("Row range intersects with already existing row(s). Row will not be added.");
             erroneous = true;
 
         } else {
@@ -51,17 +51,17 @@ public final class TableBuilder {
 
     }
 
-    public Optional<Table> build(Optional<DiceExpression> dice) {
+    public Optional<Table<T>> build(Optional<DiceExpression> dice) {
 
         if (rows.isEmpty()) {
-            logger.warn("Cannot create table without rows.");
+            logger.error("Cannot create table without rows.");
 
         } else if (!erroneous) {
             try {
-                return Optional.of(new Table(name, rows, dice));
+                return Optional.of(new Table<>(name, rows, dice));
 
             } catch (IllegalArgumentException e) {
-                logger.warn(e.getMessage());
+                logger.error(e.getMessage());
             }
         }
 

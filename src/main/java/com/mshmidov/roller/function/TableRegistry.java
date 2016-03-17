@@ -18,17 +18,17 @@ public final class TableRegistry {
 
     private static final Logger logger = LoggerFactory.getLogger(TableRegistry.class);
 
-    private Map<String, Table> tables = new HashMap<>();
+    private Map<String, Table<String>> tables = new HashMap<>();
 
-    public Collection<Table> getAllTables() {
+    public Collection<Table<String>> getAllTables() {
         return ImmutableList.copyOf(tables.values());
     }
 
-    public Optional<Table> getTable(String name) {
+    public Optional<Table<String>> getTable(String name) {
         return Optional.ofNullable(tables.get(name));
     }
 
-    public void putTable(Table table) {
+    public void putTable(Table<String> table) {
         final String name = table.getName();
 
         if (getTable(name).isPresent()) {

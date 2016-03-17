@@ -1,4 +1,4 @@
-package com.mshmidov.roller.rollers.official;
+package com.mshmidov.roller.rollers.omorye.official;
 
 public enum Career {
     MILITARY,
