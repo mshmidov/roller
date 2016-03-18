@@ -14,8 +14,10 @@ public class Roller {
         if (args.length > 0) {
 
             if (Objects.equals(args[0], "official")) {
+
+                final OfficialRoller roller = new OfficialRoller();
                 for (int i = 0; i < times; i++) {
-                    new OfficialRoller().roll();
+                    roller.roll();
                 }
             }
 

@@ -1,4 +1,4 @@
-package com.mshmidov.roller.rollers.omorye;
+package com.mshmidov.roller.data.omorye;
 
 import static com.mshmidov.roller.rollers.Sex.MALE;
 import static com.mshmidov.roller.rollers.omorye.Descent.BOYAR;
@@ -9,10 +9,11 @@ import com.mshmidov.roller.function.RandomChoice;
 import com.mshmidov.roller.function.TableRegistry;
 import com.mshmidov.roller.model.Table;
 import com.mshmidov.roller.rollers.Sex;
+import com.mshmidov.roller.rollers.omorye.Descent;
 
 import java.util.Map;
 
-public final class OmoryanNames {
+public final class Names {
 
     private final TableRegistry tableRegistry;
 
@@ -24,7 +25,7 @@ public final class OmoryanNames {
             .put(BOYAR, "omorye-surname-boyar")
             .build();
 
-    public OmoryanNames(TableRegistry tableRegistry) {
+    public Names(TableRegistry tableRegistry) {
         this.tableRegistry = tableRegistry;
     }
 
