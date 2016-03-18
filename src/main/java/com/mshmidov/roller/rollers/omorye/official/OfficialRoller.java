@@ -1,6 +1,20 @@
 package com.mshmidov.roller.rollers.omorye.official;
 
 
+import static com.mshmidov.roller.data.omorye.Career.MILITARY;
+import static com.mshmidov.roller.data.omorye.MilitaryBranch.CAVALRY;
+import static com.mshmidov.roller.data.omorye.MilitaryBranch.FLEET;
+import static com.mshmidov.roller.data.omorye.MilitaryBranch.GUARDS_CAVALRY;
+import static com.mshmidov.roller.data.omorye.MilitaryBranch.GUARDS_INFANTRY;
+import static com.mshmidov.roller.data.omorye.MilitaryBranch.INFANTRY;
+import static com.mshmidov.roller.rollers.Sex.MALE;
+import static com.mshmidov.roller.rollers.omorye.Descent.BOYAR;
+import static com.mshmidov.roller.rollers.omorye.Descent.BURGHER;
+import static com.mshmidov.roller.rollers.omorye.Descent.MERCHANT;
+import static com.mshmidov.roller.rollers.omorye.Descent.NOBLE;
+import static com.mshmidov.roller.rollers.omorye.Descent.PEASANT;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 import com.google.common.collect.ImmutableMap;
 import com.mshmidov.roller.data.omorye.Career;
 import com.mshmidov.roller.data.omorye.MilitaryBranch;
@@ -15,11 +29,6 @@ import com.mshmidov.roller.rollers.omorye.Descent;
 
 import java.util.Map;
 import java.util.Optional;
-
-import static com.mshmidov.roller.data.omorye.Career.MILITARY;
-import static com.mshmidov.roller.data.omorye.MilitaryBranch.*;
-import static com.mshmidov.roller.rollers.Sex.MALE;
-import static com.mshmidov.roller.rollers.omorye.Descent.*;
 
 public class OfficialRoller {
 
@@ -72,13 +81,25 @@ public class OfficialRoller {
             NOBLE, +3,
             BOYAR, +6);
 
+    private final Map<Descent, Double> descentTitleChance = ImmutableMap.of(
+            PEASANT, 0d,
+            BURGHER, 0d,
+            MERCHANT, 0d,
+            NOBLE, 0.2,
+            BOYAR, 0.3);
+
     public void roll() {
 
         final Descent descent = randomDescent.rollValue();
         final String name = names.randomName(MALE) + " " + names.randomSurname(descent, MALE);
+        final String title = RandomChoice.byChance(descentTitleChance.get(descent), RandomChoice.from("граф ", "князь ")).orElse("");
+
+        final int gradeModifier = descentGradeModifier.get(descent) + (isNotBlank(title) ? 200 : 0);
+        final int grade = this.randomGrade.rollValue(gradeModifier);
+
+        final int age = RandomChoice.between(16 + (13 - grade) * 3, 65 - (grade * 2));
 
         final Career career = RandomChoice.from(Career.class);
-        final int grade = this.randomGrade.rollValue(descentGradeModifier.get(descent));
 
         final String rank;
 
@@ -92,8 +113,8 @@ public class OfficialRoller {
             rank = RankTable.rank(grade, career);
         }
 
-        System.out.println(String.format("%s, %s рода, %s",
-                name, Render.renderDescentGenitive(descent), rank));
+        System.out.println(String.format("%s%s, %d, %s рода, %s",
+                title, name, age, Render.renderDescentGenitive(descent), rank));
     }
 
 }

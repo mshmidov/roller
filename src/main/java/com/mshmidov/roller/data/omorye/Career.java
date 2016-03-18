@@ -3,7 +3,7 @@ package com.mshmidov.roller.data.omorye;
 public enum Career {
     MILITARY,
     CIVIL,
-    COURTIER,
+//    COURTIER,
     CLERICAL,
     ACADEMIC
 }
