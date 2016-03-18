@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.NavigableMap;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.mshmidov.roller.data.omorye.Career.CIVIL;
 import static com.mshmidov.roller.data.omorye.Career.MILITARY;
 import static com.mshmidov.roller.data.omorye.MilitaryBranch.*;
 import static com.mshmidov.roller.function.Functions.*;
@@ -24,16 +25,29 @@ public final class RankTable {
             GUARDS_CAVALRY, toNavigableMap(loadRanks(getResource(RankTable.class, "rank-military-guards-cavalry")))
     );
 
+    private static final Map<Career, NavigableMap<Integer, String>> OTHER_RANKS = ImmutableMap.of(
+            CIVIL, toNavigableMap(loadRanks(getResource(RankTable.class, "rank-civil")))
+    );
+
     public static String militaryRank(int grade, MilitaryBranch branch) {
         final NavigableMap<Integer, String> ranks = MILITARY_RANKS.get(branch);
 
         return ranks.get(firstNonNull(ranks.ceilingKey(grade), ranks.lastKey()));
     }
 
+    public static String otherRank(int grade, Career career) {
+        final NavigableMap<Integer, String> ranks = OTHER_RANKS.get(career);
+
+        return ranks.get(firstNonNull(ranks.ceilingKey(grade), ranks.lastKey()));
+    }
+
     public static String rank(int grade, Career career) {
         if (career == MILITARY) {
-            militaryRank(grade, RandomChoice.from(MilitaryBranch.class));
+            return RandomChoice.from(militaryRank(grade, RandomChoice.from(MilitaryBranch.class)).split("/"));
+        } else if (career == CIVIL) {
+            return RandomChoice.from(otherRank(grade, career).split("/"));
         }
+
         return career.name() + " " + grade;
     }
 
