@@ -1,9 +1,5 @@
 package com.mshmidov.roller.data.omorye;
 
-import static com.mshmidov.roller.rollers.Sex.MALE;
-import static com.mshmidov.roller.rollers.omorye.Descent.BOYAR;
-import static com.mshmidov.roller.rollers.omorye.Descent.NOBLE;
-
 import com.google.common.collect.ImmutableMap;
 import com.mshmidov.roller.function.RandomChoice;
 import com.mshmidov.roller.function.TableRegistry;
@@ -12,6 +8,10 @@ import com.mshmidov.roller.rollers.Sex;
 import com.mshmidov.roller.rollers.omorye.Descent;
 
 import java.util.Map;
+
+import static com.mshmidov.roller.rollers.Sex.MALE;
+import static com.mshmidov.roller.rollers.omorye.Descent.BOYAR;
+import static com.mshmidov.roller.rollers.omorye.Descent.NOBLE;
 
 public final class Names {
 
@@ -32,7 +32,7 @@ public final class Names {
 
     public String randomName(Sex sex) {
         final String sexSuffix = (sex == MALE) ? "-male" : "-female";
-        final String topSuffix = RandomChoice.byChance(0.7, "-top").orElse("");
+        final String topSuffix = RandomChoice.byChance(0.5, "-top").orElse("");
 
         final Table<String> nameTable = tableRegistry.getTable("omorye-name" + sexSuffix + topSuffix).get();
         return nameTable.rollValue();

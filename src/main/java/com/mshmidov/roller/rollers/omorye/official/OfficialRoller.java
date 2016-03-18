@@ -1,19 +1,6 @@
 package com.mshmidov.roller.rollers.omorye.official;
 
 
-import static com.mshmidov.roller.data.omorye.Career.MILITARY;
-import static com.mshmidov.roller.data.omorye.MilitaryBranch.CAVALRY;
-import static com.mshmidov.roller.data.omorye.MilitaryBranch.FLEET;
-import static com.mshmidov.roller.data.omorye.MilitaryBranch.GUARDS_CAVALRY;
-import static com.mshmidov.roller.data.omorye.MilitaryBranch.GUARDS_INFANTRY;
-import static com.mshmidov.roller.data.omorye.MilitaryBranch.INFANTRY;
-import static com.mshmidov.roller.rollers.Sex.MALE;
-import static com.mshmidov.roller.rollers.omorye.Descent.BOYAR;
-import static com.mshmidov.roller.rollers.omorye.Descent.BURGHER;
-import static com.mshmidov.roller.rollers.omorye.Descent.MERCHANT;
-import static com.mshmidov.roller.rollers.omorye.Descent.NOBLE;
-import static com.mshmidov.roller.rollers.omorye.Descent.PEASANT;
-
 import com.google.common.collect.ImmutableMap;
 import com.mshmidov.roller.data.omorye.Career;
 import com.mshmidov.roller.data.omorye.MilitaryBranch;
@@ -29,10 +16,23 @@ import com.mshmidov.roller.rollers.omorye.Descent;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.mshmidov.roller.data.omorye.Career.MILITARY;
+import static com.mshmidov.roller.data.omorye.MilitaryBranch.*;
+import static com.mshmidov.roller.rollers.Sex.MALE;
+import static com.mshmidov.roller.rollers.omorye.Descent.*;
+
 public class OfficialRoller {
 
     private final TableRegistry tableRegistry = TableRegistry.newInstance();
     private final Names names = new Names(tableRegistry);
+
+    private final Table<Descent> randomDescent = new TableBuilder<Descent>("descent")
+            .row(new Range(1), PEASANT)
+            .row(new Range(2, 4), BURGHER)
+            .row(new Range(5, 6), MERCHANT)
+            .row(new Range(7, 9), NOBLE)
+            .row(new Range(10), BOYAR)
+            .build(Optional.empty()).orElseThrow(IllegalStateException::new);
 
     private final Table<Integer> randomGrade = new TableBuilder<Integer>("grade")
             .row(new Range(1000, 1000), 1)
@@ -74,7 +74,7 @@ public class OfficialRoller {
 
     public void roll() {
 
-        final Descent descent = RandomChoice.from(Descent.class);
+        final Descent descent = randomDescent.rollValue();
         final String name = names.randomName(MALE) + " " + names.randomSurname(descent, MALE);
 
         final Career career = RandomChoice.from(Career.class);
@@ -85,7 +85,7 @@ public class OfficialRoller {
         if (career == MILITARY) {
             final MilitaryBranch militaryBranch = randomMilitaryBranch.rollValue(descentMilitaryBranchModifier.get(descent));
 
-            final boolean civilian =  militaryBranch != GUARDS_CAVALRY && militaryBranch != GUARDS_INFANTRY && RandomChoice.byChance(0.2);
+            final boolean civilian = militaryBranch != GUARDS_CAVALRY && militaryBranch != GUARDS_INFANTRY && RandomChoice.byChance(0.2);
 
             rank = Render.renderMilitaryRank(militaryBranch, RankTable.militaryRank(grade, militaryBranch), civilian);
         } else {

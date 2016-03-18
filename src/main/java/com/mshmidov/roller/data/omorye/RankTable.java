@@ -16,7 +16,6 @@ public final class RankTable {
 
     public static final Range GRADES = new Range(1, 13);
 
-
     private static final Map<MilitaryBranch, NavigableMap<Integer, String>> MILITARY_RANKS = ImmutableMap.of(
             INFANTRY, toNavigableMap(loadRanks(getResource(RankTable.class, "rank-military-infantry"))),
             CAVALRY, toNavigableMap(loadRanks(getResource(RankTable.class, "rank-military-cavalry"))),
@@ -28,7 +27,7 @@ public final class RankTable {
     public static String militaryRank(int grade, MilitaryBranch branch) {
         final NavigableMap<Integer, String> ranks = MILITARY_RANKS.get(branch);
 
-        return ranks.get(firstNonNull(ranks.ceilingKey(grade), ranks.firstKey()));
+        return ranks.get(firstNonNull(ranks.ceilingKey(grade), ranks.lastKey()));
     }
 
     public static String rank(int grade, Career career) {
