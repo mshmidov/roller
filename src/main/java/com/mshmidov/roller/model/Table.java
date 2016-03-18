@@ -4,6 +4,7 @@ package com.mshmidov.roller.model;
 import com.google.common.base.Preconditions;
 import com.mshmidov.roller.function.Functions;
 import com.mshmidov.roller.function.IntToIntFunction;
+import com.mshmidov.roller.function.RandomChoice;
 import com.wandrell.tabletop.dice.notation.DiceExpression;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -11,7 +12,6 @@ import java.util.Collections;
 import java.util.NavigableMap;
 import java.util.Optional;
 import java.util.TreeMap;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.IntSupplier;
 import java.util.stream.Collectors;
 
@@ -40,7 +40,7 @@ public final class Table<T> {
 
         this.roll = roll
                 .map(Functions::diceRollSupplier)
-                .orElse(() -> ThreadLocalRandom.current().nextInt(rowIndex.firstKey(), rowIndex.lastKey() + 1));
+                .orElse(() -> RandomChoice.between(rowIndex.firstKey(), rowIndex.lastKey()));
 
         this.bounds = Functions.valueInBounds(rowIndex.firstKey(), rowIndex.lastKey());
         this.description = String.format("%s (%s) %d rows, %d choices",

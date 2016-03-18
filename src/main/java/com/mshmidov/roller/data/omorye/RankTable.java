@@ -82,7 +82,7 @@ public final class RankTable {
     public static String militaryRank(int grade, MilitaryBranch branch) {
         final NavigableMap<Integer, String> ranks = MILITARY_RANKS.get(branch);
 
-        return ranks.get(firstNonNull(ranks.floorKey(grade), ranks.firstKey()));
+        return ranks.get(firstNonNull(ranks.ceilingKey(grade), ranks.firstKey()));
     }
 
     public static String rank(int grade, Career career) {

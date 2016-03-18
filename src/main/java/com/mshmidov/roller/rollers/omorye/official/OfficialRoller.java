@@ -58,12 +58,12 @@ public class OfficialRoller {
             .row(new Range(10), GUARDS_INFANTRY)
             .build(Optional.empty()).orElseThrow(IllegalStateException::new);
 
-    private final Map<Descent, Integer> descentRankModifier = ImmutableMap.of(
+    private final Map<Descent, Integer> descentGradeModifier = ImmutableMap.of(
             PEASANT, 0,
-            BURGHER, +100,
-            MERCHANT, +200,
-            NOBLE, +300,
-            BOYAR, +500);
+            BURGHER, +50,
+            MERCHANT, +100,
+            NOBLE, +150,
+            BOYAR, +200);
 
     private final Map<Descent, Integer> descentMilitaryBranchModifier = ImmutableMap.of(
             PEASANT, 0,
@@ -78,13 +78,16 @@ public class OfficialRoller {
         final String name = names.randomName(MALE) + " " + names.randomSurname(descent, MALE);
 
         final Career career = RandomChoice.from(Career.class);
-        final int grade = this.randomGrade.rollValue(descentRankModifier.get(descent));
+        final int grade = this.randomGrade.rollValue(descentGradeModifier.get(descent));
 
         final String rank;
 
         if (career == MILITARY) {
             final MilitaryBranch militaryBranch = randomMilitaryBranch.rollValue(descentMilitaryBranchModifier.get(descent));
-            rank = RankTable.militaryRank(grade, militaryBranch);
+
+            final boolean civilian =  militaryBranch != GUARDS_CAVALRY && militaryBranch != GUARDS_INFANTRY && RandomChoice.byChance(0.2);
+
+            rank = Render.renderMilitaryRank(militaryBranch, RankTable.militaryRank(grade, militaryBranch), civilian);
         } else {
             rank = RankTable.rank(grade, career);
         }
